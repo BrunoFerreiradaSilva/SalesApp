@@ -1,4 +1,4 @@
-package com.example.salesapp.ui
+package com.example.salesapp.ui.orderplace
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
