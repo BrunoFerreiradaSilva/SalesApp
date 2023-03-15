@@ -6,10 +6,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.salesapp.databinding.ActivityOrdersPlacedBinding
-import com.example.salesapp.model.Mock
 import com.example.salesapp.ui.orderregistration.OrderRegistrationActivity
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class OrdersPlacedActivity : AppCompatActivity() {

@@ -4,32 +4,28 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_client_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginTop="10dp"
-            android:hint="Nome do cliente"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_client_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/tv_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/title_add_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_product_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="Nome do produto"
-            app:layout_constraintEnd_toEndOf="@+id/til_client_name"
-            app:layout_constraintStart_toStartOf="@+id/til_client_name"
-            app:layout_constraintTop_toBottomOf="@+id/til_client_name">
+            android:hint="@string/name_of_product"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@id/tv_title">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tie_product_name"
@@ -42,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="Descrição do produto"
+            android:hint="@string/description_of_product"
             app:layout_constraintEnd_toEndOf="@+id/til_product_name"
             app:layout_constraintStart_toStartOf="@+id/til_product_name"
             app:layout_constraintTop_toBottomOf="@+id/til_product_name">
@@ -58,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="Preço"
+            android:hint="@string/price"
             app:layout_constraintEnd_toStartOf="@id/til_amount"
             app:layout_constraintStart_toStartOf="@id/til_product_description"
             app:layout_constraintTop_toBottomOf="@id/til_product_description">
@@ -75,7 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="Quantidade"
+            android:hint="@string/amount"
             app:layout_constraintEnd_toEndOf="@id/til_product_description"
             app:layout_constraintStart_toEndOf="@id/til_price"
             app:layout_constraintTop_toBottomOf="@id/til_product_description">
@@ -92,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Incluir"
+            android:text="@string/include"
             android:layout_marginBottom="10dp"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"

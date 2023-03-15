@@ -7,5 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface SalesRepository {
      fun getOrders():Flow<DataState<List<Order>>>
-     suspend fun insertItem(item:Item)
+     suspend fun setOrder(order: Order):Flow<DataState<List<Order>>>
+     suspend fun insertItem(listItem:List<Item>):Flow<DataState<List<Item>>>
 }

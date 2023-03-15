@@ -2,4 +2,13 @@
     <string name="app_name">SalesApp</string>
     <string name="button_for_created_order">button for created order</string>
     <string name="button_for_include_item">button_for_include_item</string>
+    <string name="product">Produto:</string>
+    <string name="description">Descrição:</string>
+    <string name="price">Preço:</string>
+    <string name="amount">Quantidade:</string>
+    <string name="name_of_product">Nome do produto</string>
+    <string name="description_of_product">Descrição do produto</string>
+    <string name="value_standard">R$ 0,00</string>
+    <string name="title_add_items">Adicionar items</string>
+    <string name="include">Incluir</string>
 </resources>

@@ -1,8 +1,8 @@
 package com.example.salesapp.model
 
 data class Item(
-    val name:String,
+    val nameProduct:String,
     val description:String,
-    val price:Int,
+    val price:String,
     val amount:Int
 )

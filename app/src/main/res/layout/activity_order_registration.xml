@@ -20,7 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:text="Order"
             android:textColor="@color/white"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
@@ -31,29 +33,80 @@
             android:layout_gravity="end"
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
-            android:padding="8dp"
             android:clickable="true"
+            android:contentDescription="@string/button_for_include_item"
+            android:padding="8dp"
             android:src="@drawable/ic_add"
-            app:tint="@color/white"
-            android:contentDescription="@string/button_for_include_item" />
+            app:tint="@color/white" />
 
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_order_registration"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@id/cv_buttons"
+        app:layout_constraintBottom_toTopOf="@id/cl_total"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_total"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/rv_order_registration"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@id/cv_buttons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tv_total_items"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Total de items: "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_result_total_items"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@id/tv_total_items"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_total_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Total de valores: "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_total_items" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="textStart"
+            app:layout_constraintStart_toEndOf="@id/tv_total_value"
+            app:layout_constraintTop_toBottomOf="@id/tv_result_total_items" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cv_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/cl_total"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -63,10 +116,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:visibility="visible"
+
             android:text="Salvar"
-            app:layout_constraintEnd_toEndOf="parent"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
