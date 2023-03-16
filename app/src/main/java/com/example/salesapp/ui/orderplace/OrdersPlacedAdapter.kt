@@ -7,13 +7,19 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.salesapp.databinding.ItemOrderRecyclerBinding
 import com.example.salesapp.model.Order
+import com.example.salesapp.util.formatForTwoDecimalPlaces
 
 class OrdersPlacedAdapter : ListAdapter<Order, ViewHolder>(OrdersPlacedAdapter) {
 
     inner class ItemRecycler(private val itemRecycler: ItemOrderRecyclerBinding) :
         ViewHolder(itemRecycler.root) {
         fun binding(order: Order) {
-        itemRecycler.tvOrderNumber.text = order.id.toString()
+            itemRecycler.tvOrderNumber.text = order.id.toString()
+            order.listItems.forEach {
+                itemRecycler.tvTotalOrder.text = "R$ ${it.total.formatForTwoDecimalPlaces()}"
+            }
+
+
         }
     }
 

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
 import com.example.salesapp.helpers.DataState
 import com.example.salesapp.model.Item
-import com.example.salesapp.model.Order
+import com.example.salesapp.util.formatForTwoDecimalPlaces
 import com.example.salesapp.util.removeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -79,11 +79,15 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
                 it.total
             }
 
-            val value = String.format("%.2f",sumTotal)
-
-            _priceValue.postValue("R$ $value")
+            _priceValue.postValue("R$ ${sumTotal.formatForTwoDecimalPlaces()}")
             _amountValue.postValue(listItem.size.toString())
             repository.insertItem(listItem).collect(::handleGetOrder)
+        }
+    }
+
+    fun saveOrder() {
+        viewModelScope.launch {
+            repository.saveOrder(listItem)
         }
     }
 }

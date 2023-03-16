@@ -7,6 +7,5 @@ import androidx.room.PrimaryKey
 data class Order(
     @PrimaryKey(autoGenerate = true)
     val id:Int = 0,
-    val listItems: List<Item>,
-    val total:Int
+    val listItems: List<Item>
 )

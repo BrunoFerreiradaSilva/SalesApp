@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.salesapp.databinding.ItemOrderRecyclerBinding
 import com.example.salesapp.databinding.ItemRegistrationOrderBinding
 import com.example.salesapp.model.Item
+import com.example.salesapp.util.formatForTwoDecimalPlaces
 
 class OrdersRegistrationAdapter : ListAdapter<Item, ViewHolder>(OrdersRegistrationAdapter) {
 
@@ -17,11 +18,9 @@ class OrdersRegistrationAdapter : ListAdapter<Item, ViewHolder>(OrdersRegistrati
             itemRecycler.apply {
                 tvResultNameClient.text = item.nameProduct
                 tvResultDescriptionClient.text = item.description
-                val priceString = String.format("%.2f",item.price)
-                tvResultPriceClient.text = "R$ ${priceString}"
+                tvResultPriceClient.text = "R$ ${item.price.formatForTwoDecimalPlaces()}"
                 tvResultAmountClient.text = "${item.amount}"
-                val priceTotalString = String.format("%.2f",item.total)
-                tvResultTotalClient.text = "R$ $priceTotalString"
+                tvResultTotalClient.text = "R$ ${item.total.formatForTwoDecimalPlaces()}"
             }
 
         }

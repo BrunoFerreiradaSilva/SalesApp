@@ -10,7 +10,6 @@ import com.example.salesapp.R
 import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
 import com.example.salesapp.databinding.LayoutIncludeProductBinding
 import com.example.salesapp.util.addCurrencyFormatter
-import com.example.salesapp.util.removeFormatter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +39,11 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 ordersRegistrationAdapter.submitList(listItem)
                 binding.cvButtons.isVisible = listItem.isNotEmpty()
             }
+        }
+
+        binding.btnSave.setOnClickListener {
+            viewModel.saveOrder()
+            finish()
         }
 
         binding.btnAddItem.setOnClickListener {
