@@ -18,9 +18,9 @@ class OrdersRegistrationAdapter : ListAdapter<Item, ViewHolder>(OrdersRegistrati
             itemRecycler.apply {
                 tvResultNameClient.text = item.nameProduct
                 tvResultDescriptionClient.text = item.description
-                tvResultPriceClient.text = "R$ ${item.price.formatForTwoDecimalPlaces()}"
-                tvResultAmountClient.text = "${item.amount}"
-                tvResultTotalClient.text = "R$ ${item.total.formatForTwoDecimalPlaces()}"
+                tvAmountProduct.text = "${item.amount}"
+                tvPriceUn.text = "R$ ${item.price.formatForTwoDecimalPlaces()}"
+                tvTotalValue.text = "R$ ${item.total.formatForTwoDecimalPlaces()}"
             }
 
         }
