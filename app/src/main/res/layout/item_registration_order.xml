@@ -26,9 +26,9 @@
             <TextView
                 android:id="@+id/tv_name_product"
                 style="@style/textStyle"
-                android:paddingStart="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="8dp"
                 android:text="@string/product"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -50,8 +50,8 @@
                 style="@style/textStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/description"
                 android:paddingStart="8dp"
+                android:text="@string/description"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_name_product" />
@@ -63,52 +63,60 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/cl_price"
                 app:layout_constraintStart_toEndOf="@id/tv_description_product"
                 app:layout_constraintTop_toTopOf="@id/tv_description_product" />
 
-            <TextView
-                android:id="@+id/tv_amount_product"
-                style="@style/textStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_description_product"
-                tools:text="1" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_price"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_result_description_client"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_x"
-                style="@style/textStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toEndOf="@id/tv_amount_product"
-                app:layout_constraintTop_toBottomOf="@id/tv_description_product"
-                android:text="un x " />
+                <TextView
+                    android:id="@+id/tv_amount_product"
+                    style="@style/textStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="1" />
 
-            <TextView
-                android:id="@+id/tv_price_un"
-                style="@style/textStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toEndOf="@id/tv_x"
-                app:layout_constraintTop_toBottomOf="@id/tv_description_product"
-                tools:text="10" />
+                <TextView
+                    android:id="@+id/tv_x"
+                    style="@style/textStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="10dp"
+                    android:text="un x "
+                    app:layout_constraintStart_toEndOf="@id/tv_amount_product"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_total_value"
-                style="@style/textStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_description_product"
-                tools:text="R$ 59,90" />
+                <TextView
+                    android:id="@+id/tv_price_un"
+                    style="@style/textStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toEndOf="@id/tv_x"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="10" />
+
+                <TextView
+                    android:id="@+id/tv_total_value"
+                    style="@style/textStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="R$ 59,90" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

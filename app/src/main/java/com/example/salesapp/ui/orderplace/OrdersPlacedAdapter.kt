@@ -19,9 +19,7 @@ class OrdersPlacedAdapter(private val listener: OnClickListener) : ListAdapter<O
                 it.total
             }
             itemRecycler.tvTotalOrder.text = "Total: R$ ${sumTotal.formatForTwoDecimalPlaces()}"
-            order.listItems.forEach { item ->
-                itemRecycler.tvTotalItems.text = "Total items: ${item.amount}"
-            }
+            itemRecycler.tvTotalItems.text = "Total items: ${order.listItems.size}"
         }
     }
 
