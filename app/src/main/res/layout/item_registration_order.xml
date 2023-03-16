@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:padding="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -61,26 +62,64 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_description_product"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/cl_price"
                 app:layout_constraintStart_toEndOf="@id/tv_description_product"
-                app:layout_constraintTop_toTopOf="@id/tv_description_product" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_result_name_client" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_price"
+                android:id="@+id/cl_resume"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_result_description_client"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_description_product"
+                tools:layout_editor_absoluteX="8dp">
+
+                <TextView
+                    android:id="@+id/tv_price_text"
+                    style="@style/textStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Quant."
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@id/tv_amount_text"
+                    app:layout_constraintHorizontal_bias="0.47"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_amount_text"
+                    style="@style/textStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20sp"
+                    android:text="Preço Un"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_total_text"
+                    app:layout_constraintStart_toEndOf="@id/tv_price_text"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_total_text"
+                    style="@style/textStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_total_value"
+                    app:layout_constraintStart_toEndOf="@+id/tv_amount_text"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_amount_product"
                     style="@style/textStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_x"
+                    app:layout_constraintStart_toStartOf="@id/tv_price_text"
+                    app:layout_constraintTop_toBottomOf="@id/tv_price_text"
                     tools:text="1" />
 
                 <TextView
@@ -89,20 +128,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginTop="10dp"
                     android:text="un x "
+                    app:layout_constraintEnd_toEndOf="@+id/tv_price_text"
                     app:layout_constraintStart_toEndOf="@id/tv_amount_product"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_price_text" />
 
                 <TextView
                     android:id="@+id/tv_price_un"
                     style="@style/textStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintStart_toEndOf="@id/tv_x"
-                    app:layout_constraintTop_toTopOf="parent"
+
+                    app:layout_constraintStart_toStartOf="@+id/tv_amount_text"
+                    app:layout_constraintTop_toBottomOf="@id/tv_amount_text"
+                    tools:layout_editor_absoluteY="27dp"
                     tools:text="10" />
 
                 <TextView
@@ -110,12 +149,12 @@
                     style="@style/textStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_total_text"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_total_text"
                     tools:text="R$ 59,90" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

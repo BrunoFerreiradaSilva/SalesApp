@@ -5,10 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.salesapp.databinding.ItemOrderRecyclerBinding
 import com.example.salesapp.databinding.ItemRegistrationOrderBinding
 import com.example.salesapp.model.Item
-import com.example.salesapp.util.formatForTwoDecimalPlaces
+import java.text.NumberFormat
 
 class OrdersRegistrationAdapter : ListAdapter<Item, ViewHolder>(OrdersRegistrationAdapter) {
 
@@ -19,8 +18,8 @@ class OrdersRegistrationAdapter : ListAdapter<Item, ViewHolder>(OrdersRegistrati
                 tvResultNameClient.text = item.nameProduct
                 tvResultDescriptionClient.text = item.description
                 tvAmountProduct.text = "${item.amount}"
-                tvPriceUn.text = "R$ ${item.price.formatForTwoDecimalPlaces()}"
-                tvTotalValue.text = "R$ ${item.total.formatForTwoDecimalPlaces()}"
+                tvPriceUn.text = "${NumberFormat.getCurrencyInstance().format(item.price)}"
+                tvTotalValue.text = "${NumberFormat.getCurrencyInstance().format(item.total)}"
             }
 
         }

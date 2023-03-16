@@ -34,6 +34,10 @@ class OrderRegistrationActivity : AppCompatActivity() {
             layoutManager = GridLayoutManager(this@OrderRegistrationActivity, 1)
         }
 
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
         lifecycleScope.launch {
             viewModel.uiState.collect { listItem ->
                 ordersRegistrationAdapter.submitList(listItem)
@@ -94,10 +98,10 @@ class OrderRegistrationActivity : AppCompatActivity() {
     ) {
         bindingProduct.apply {
             if (viewModel.verifyFields(
-                    tieProductName.text.toString(),
-                    tieAmount.text.toString(),
-                    tiePrice.text.toString(),
-                    tieProductDescription.text.toString()
+                    tieProductName,
+                    tieProductDescription,
+                    tiePrice,
+                    tieAmount
                 )
             ) {
                 viewModel.insertProduct(

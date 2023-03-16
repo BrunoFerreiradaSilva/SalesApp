@@ -43,11 +43,8 @@ fun String.removeFormatter(): String {
     val parsed = if (cleanString.isBlank()) 0.0 else cleanString.toDouble()
 
     val formated = NumberFormat.getInstance().format(parsed / 100)
-    return formated.replace(",",".")
-}
-
-fun Double.formatForTwoDecimalPlaces():String{
-    return String.format("%.2f",this)
+    val newFormat = formated.replace(".","")
+    return newFormat.replace(",",".")
 }
 
 fun View.gone(){

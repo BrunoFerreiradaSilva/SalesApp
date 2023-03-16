@@ -1,5 +1,6 @@
 package com.example.salesapp.ui.orderregistration
 
+import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,12 +9,12 @@ import com.example.salesapp.data.repository.SalesRepository
 import com.example.salesapp.helpers.DataState
 import com.example.salesapp.model.Item
 import com.example.salesapp.model.Order
-import com.example.salesapp.util.formatForTwoDecimalPlaces
 import com.example.salesapp.util.removeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,15 +44,26 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
     }
 
     fun verifyFields(
-        nameProduct: String,
-        descriptionProduct: String,
-        price: String,
-        amount: String
+        nameProduct: EditText,
+        descriptionProduct: EditText,
+        price: EditText,
+        amount: EditText
     ): Boolean {
-        return nameProduct.isNotEmpty() &&
-                descriptionProduct.isNotEmpty() &&
-                price.isNotEmpty() &&
-                amount.isNotEmpty()
+        return if (nameProduct.text.isEmpty()) {
+            nameProduct.error = "Digite o nome do produto"
+            false
+        } else if (descriptionProduct.text.isEmpty()) {
+            descriptionProduct.error = "Digite a descrição do produto"
+            false
+        } else if (price.text.isEmpty()) {
+            price.error = "Digite o valor do produto"
+            false
+        } else if (amount.text.isEmpty()) {
+            amount.error = "Digite a quantidade do produto"
+            false
+        } else {
+            true
+        }
     }
 
     fun insertProduct(
@@ -77,7 +89,7 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
                 it.total
             }
 
-            _priceValue.postValue("R$ ${sumTotal.formatForTwoDecimalPlaces()}")
+            _priceValue.postValue("${NumberFormat.getCurrencyInstance().format(sumTotal)}")
             _amountValue.postValue(listItem.size.toString())
             repository.insertItem(listItem).collect(::handleGetOrder)
         }
@@ -89,22 +101,22 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
         }
     }
 
-    fun getOrders(orderId: Int){
+    fun getOrders(orderId: Int) {
         viewModelScope.launch {
             repository.getOrder(orderId).collect(::getOrder)
         }
     }
 
-    private fun getOrder(state: DataState<Order>){
-        when(state){
-            is DataState.Data ->{
+    private fun getOrder(state: DataState<Order>) {
+        when (state) {
+            is DataState.Data -> {
                 val listSaved = state.data.listItems
                 _uiState.value = listSaved
 
                 val sumTotal = listSaved.sumOf {
                     it.total
                 }
-                _priceValue.postValue("R$ ${sumTotal.formatForTwoDecimalPlaces()}")
+                _priceValue.postValue("${NumberFormat.getCurrencyInstance().format(sumTotal)}")
                 _amountValue.postValue(listSaved.size.toString())
             }
             else -> {}

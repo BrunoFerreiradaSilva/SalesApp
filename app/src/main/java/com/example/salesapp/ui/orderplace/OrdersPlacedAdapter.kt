@@ -7,18 +7,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.salesapp.databinding.ItemOrderRecyclerBinding
 import com.example.salesapp.model.Order
-import com.example.salesapp.util.formatForTwoDecimalPlaces
+import java.text.NumberFormat
 
-class OrdersPlacedAdapter(private val listener: OnClickListener) : ListAdapter<Order, ViewHolder>(OrdersPlacedAdapter) {
+class OrdersPlacedAdapter(private val listener: OnClickListener) :
+    ListAdapter<Order, ViewHolder>(OrdersPlacedAdapter) {
 
     inner class ItemRecycler(private val itemRecycler: ItemOrderRecyclerBinding) :
         ViewHolder(itemRecycler.root) {
         fun binding(order: Order) {
             itemRecycler.tvOrderNumber.text = "Order number ${order.id.toString()}"
-           val sumTotal =  order.listItems.sumOf {
+            val sumTotal = order.listItems.sumOf {
                 it.total
             }
-            itemRecycler.tvTotalOrder.text = "Total: R$ ${sumTotal.formatForTwoDecimalPlaces()}"
+            itemRecycler.tvTotalOrder.text =
+                "Total: ${NumberFormat.getCurrencyInstance().format(sumTotal)}"
             itemRecycler.tvTotalItems.text = "Total items: ${order.listItems.size}"
         }
     }
@@ -35,7 +37,7 @@ class OrdersPlacedAdapter(private val listener: OnClickListener) : ListAdapter<O
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         (holder as ItemRecycler).binding(getItem(position))
         holder.itemView.setOnClickListener {
-           listener.goToDetailsOrder(getItem(position).id)
+            listener.goToDetailsOrder(getItem(position).id)
         }
     }
 
@@ -53,6 +55,6 @@ class OrdersPlacedAdapter(private val listener: OnClickListener) : ListAdapter<O
     }
 }
 
-interface OnClickListener{
-    fun goToDetailsOrder(orderId:Int)
+interface OnClickListener {
+    fun goToDetailsOrder(orderId: Int)
 }
