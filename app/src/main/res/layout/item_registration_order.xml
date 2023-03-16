@@ -61,7 +61,7 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/black"
-            android:text="@string/price"
+            android:text="@string/price_un"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_description_product" />
 
@@ -96,6 +96,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_amount_product"
             app:layout_constraintTop_toTopOf="@id/tv_amount_product" />
+
+        <TextView
+            android:id="@+id/tv_total_product"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:text="@string/total_price"
+            app:layout_constraintTop_toBottomOf="@+id/tv_amount_product"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_result_total_client"
+            android:layout_width="0dp"
+            android:layout_marginStart="8dp"
+            android:textAlignment="textStart"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_total_product"
+            app:layout_constraintTop_toTopOf="@id/tv_total_product" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

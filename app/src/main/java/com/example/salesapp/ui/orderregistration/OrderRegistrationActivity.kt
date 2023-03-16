@@ -6,10 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.salesapp.MoneyTextWatcher
 import com.example.salesapp.R
 import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
 import com.example.salesapp.databinding.LayoutIncludeProductBinding
+import com.example.salesapp.util.addCurrencyFormatter
+import com.example.salesapp.util.removeFormatter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,41 +43,55 @@ class OrderRegistrationActivity : AppCompatActivity() {
         }
 
         binding.btnAddItem.setOnClickListener {
-            val bottomSheet = BottomSheetDialog(this, R.style.DialogStyle)
-            val bindingProduct = LayoutIncludeProductBinding.inflate(layoutInflater)
-            bottomSheet.setContentView(bindingProduct.root)
-            bottomSheet.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            setupBottomDialog()
+        }
 
-            bottomSheet.show()
+        viewModel.amountValue.observe(this){amount->
+            binding.tvResultTotalItems.text = amount
+        }
+        viewModel.priceValue.observe(this){price->
+            binding.tvResultTotalValue.text = price
+        }
+    }
 
+    private fun setupBottomDialog() {
+        val bottomSheet = BottomSheetDialog(this, R.style.DialogStyle)
+        val bindingProduct = LayoutIncludeProductBinding.inflate(layoutInflater)
+        bottomSheet.setContentView(bindingProduct.root)
+        bottomSheet.behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
-            bindingProduct.tiePrice.apply {
-                addTextChangedListener(MoneyTextWatcher(this))
+        bottomSheet.show()
+
+        bindingProduct.tiePrice.addCurrencyFormatter()
+
+        bindingProduct.btnIncludeProduct.setOnClickListener {
+            verifyFields(bindingProduct, bottomSheet)
+        }
+    }
+
+    private fun verifyFields(
+        bindingProduct: LayoutIncludeProductBinding,
+        bottomSheet: BottomSheetDialog
+    ) {
+        bindingProduct.apply {
+            if (viewModel.verifyFields(
+                    tieProductName.text.toString(),
+                    tieAmount.text.toString(),
+                    tiePrice.text.toString(),
+                    tieProductDescription.text.toString()
+                )
+            ) {
+                viewModel.insertProduct(
+                    tieProductName.text.toString(),
+                    tieProductDescription.text.toString(),
+                    tiePrice.text.toString(),
+                    tieAmount.text.toString()
+                )
+                bottomSheet.dismiss()
+            } else {
+                return
             }
 
-
-            bindingProduct.btnIncludeProduct.setOnClickListener {
-                bindingProduct.apply {
-                    if (viewModel.verifyFields(
-                            tieProductName.text.toString(),
-                            tieAmount.text.toString(),
-                            tiePrice.text.toString(),
-                            tieProductDescription.text.toString()
-                        )
-                    ) {
-                        viewModel.insertProduct(
-                            tieProductName.text.toString(),
-                            tieProductDescription.text.toString(),
-                            tiePrice.text.toString(),
-                            tieAmount.text.toString()
-                        )
-                        bottomSheet.dismiss()
-                    } else {
-                        return@setOnClickListener
-                    }
-
-                }
-            }
         }
     }
 }

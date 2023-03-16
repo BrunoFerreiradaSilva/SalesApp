@@ -14,10 +14,16 @@ class OrdersRegistrationAdapter : ListAdapter<Item, ViewHolder>(OrdersRegistrati
     inner class ItemRecycler(private val itemRecycler: ItemRegistrationOrderBinding) :
         ViewHolder(itemRecycler.root) {
         fun binding(item: Item) {
-            itemRecycler.tvResultNameClient.text = item.nameProduct
-            itemRecycler.tvResultDescriptionClient.text = item.description
-            itemRecycler.tvResultPriceClient.text = "${item.price}"
-            itemRecycler.tvResultAmountClient.text = "${item.amount}"
+            itemRecycler.apply {
+                tvResultNameClient.text = item.nameProduct
+                tvResultDescriptionClient.text = item.description
+                val priceString = String.format("%.2f",item.price)
+                tvResultPriceClient.text = "R$ ${priceString}"
+                tvResultAmountClient.text = "${item.amount}"
+                val priceTotalString = String.format("%.2f",item.total)
+                tvResultTotalClient.text = "R$ $priceTotalString"
+            }
+
         }
     }
 
