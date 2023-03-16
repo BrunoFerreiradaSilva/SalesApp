@@ -18,4 +18,6 @@
     <string name="title_toolbar_order">Order</string>
     <string name="bnt_save">Salvar</string>
     <string name="order_list">Order list</string>
+    <string name="message_no_item_add">Você ainda não adicionou\n nenhum item !"</string>
+    <string name="message_no_order">Você não tem nenhum\n pedido finalizado !</string>
 </resources>

@@ -39,6 +39,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 ordersRegistrationAdapter.submitList(listItem)
                 binding.cvButtons.isVisible = listItem.isNotEmpty()
                 binding.emptyList.clEmptyList.isVisible = listItem.isEmpty()
+                binding.emptyList.tvMessage.text = getString(R.string.message_no_item_add)
             }
         }
 
