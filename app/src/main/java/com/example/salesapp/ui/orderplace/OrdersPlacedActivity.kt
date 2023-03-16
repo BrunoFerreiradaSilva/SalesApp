@@ -17,11 +17,11 @@ class OrdersPlacedActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOrdersPlacedBinding
     private val viewModel: OrdersPlacedViewModel by viewModels()
+    private val ordersPlacedAdapter = OrdersPlacedAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrdersPlacedBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val ordersPlacedAdapter = OrdersPlacedAdapter()
 
         setupAdapter(ordersPlacedAdapter)
 
@@ -34,6 +34,11 @@ class OrdersPlacedActivity : AppCompatActivity() {
         binding.fbCreatedOrder.setOnClickListener {
             startActivity(Intent(this, OrderRegistrationActivity::class.java))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateList()
     }
 
     private fun setupAdapter(ordersPlacedAdapter: OrdersPlacedAdapter) {

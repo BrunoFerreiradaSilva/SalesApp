@@ -8,6 +8,7 @@ import com.example.salesapp.model.Order
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,6 +32,12 @@ class OrdersPlacedViewModel @Inject constructor(private val repository: SalesRep
                 _uiState.value = state.data
             }
             else -> {}
+        }
+    }
+
+    fun updateList(){
+        viewModelScope.launch {
+            repository.getOrders().collect(::handleGetOrders)
         }
     }
 

@@ -15,11 +15,10 @@ class OrdersPlacedAdapter : ListAdapter<Order, ViewHolder>(OrdersPlacedAdapter) 
         ViewHolder(itemRecycler.root) {
         fun binding(order: Order) {
             itemRecycler.tvOrderNumber.text = order.id.toString()
-            order.listItems.forEach {
-                itemRecycler.tvTotalOrder.text = "R$ ${it.total.formatForTwoDecimalPlaces()}"
+           val sumTotal =  order.listItems.sumOf {
+                it.total
             }
-
-
+            itemRecycler.tvTotalOrder.text = "R$ ${sumTotal.formatForTwoDecimalPlaces()}"
         }
     }
 
