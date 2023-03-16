@@ -38,6 +38,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
             viewModel.uiState.collect { listItem ->
                 ordersRegistrationAdapter.submitList(listItem)
                 binding.cvButtons.isVisible = listItem.isNotEmpty()
+                binding.emptyList.clEmptyList.isVisible = listItem.isEmpty()
             }
         }
 

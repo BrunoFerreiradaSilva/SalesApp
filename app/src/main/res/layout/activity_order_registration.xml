@@ -7,21 +7,31 @@
     android:background="@color/status_bar_color"
     tools:context=".ui.orderregistration.OrderRegistrationActivity">
 
+    <include
+        android:id="@+id/empty_list"
+        layout="@layout/layout_list_empty"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/cl_total"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
+        style="@style/toobarTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/toobarTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tv_number_order"
+            style="@style/textStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            style="@style/textStyle"
             android:text="@string/title_toolbar_order"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -41,6 +51,8 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_order_registration"
         android:layout_width="match_parent"
@@ -54,8 +66,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_total"
         android:layout_width="0dp"
-        android:background="@color/white"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@id/cv_buttons"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,8 +87,8 @@
             android:id="@+id/tv_result_total_items"
             style="@style/textStyle"
             android:layout_width="0dp"
-            android:layout_marginStart="10dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:textAlignment="textStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_total_items"
@@ -118,15 +130,15 @@
 
         <Button
             android:id="@+id/btn_save"
-            android:layout_width="match_parent"
-            android:layout_margin="10dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/bnt_save"
             style="@style/toobarTextStyle"
-            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/rouded_button"
+            android:text="@string/bnt_save"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

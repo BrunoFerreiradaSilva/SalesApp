@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,8 +29,11 @@ class OrdersPlacedActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.uiState.collect { listOrder ->
                 ordersPlacedAdapter.submitList(listOrder)
+                binding.emptyList.clEmptyList.isVisible = listOrder.isEmpty()
             }
         }
+
+
 
         binding.fbCreatedOrder.setOnClickListener {
             startActivity(Intent(this, OrderRegistrationActivity::class.java))
