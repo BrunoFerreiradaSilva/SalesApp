@@ -14,11 +14,14 @@ class OrdersPlacedAdapter(private val listener: OnClickListener) : ListAdapter<O
     inner class ItemRecycler(private val itemRecycler: ItemOrderRecyclerBinding) :
         ViewHolder(itemRecycler.root) {
         fun binding(order: Order) {
-            itemRecycler.tvOrderNumber.text = order.id.toString()
+            itemRecycler.tvOrderNumber.text = "Order number ${order.id.toString()}"
            val sumTotal =  order.listItems.sumOf {
                 it.total
             }
-            itemRecycler.tvTotalOrder.text = "R$ ${sumTotal.formatForTwoDecimalPlaces()}"
+            itemRecycler.tvTotalOrder.text = "Total: R$ ${sumTotal.formatForTwoDecimalPlaces()}"
+            order.listItems.forEach { item ->
+                itemRecycler.tvTotalItems.text = "Total items: ${item.amount}"
+            }
         }
     }
 

@@ -13,4 +13,8 @@
     <string name="include">Incluir</string>
     <string name="price_un">Preço Un:</string>
     <string name="total_price">Total :</string>
+    <string name="total_of_items">Total de items :</string>
+    <string name="total_of_values">Total de valores :</string>
+    <string name="title_toolbar_order">Order</string>
+    <string name="bnt_save">Salvar</string>
 </resources>
