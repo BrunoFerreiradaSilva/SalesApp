@@ -17,7 +17,7 @@ class OrdersPlacedActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOrdersPlacedBinding
     private val viewModel: OrdersPlacedViewModel by viewModels()
-    private val ordersPlacedAdapter = OrdersPlacedAdapter()
+    private val ordersPlacedAdapter = OrdersPlacedAdapter(goToDetailsOfOrder())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrdersPlacedBinding.inflate(layoutInflater)
@@ -46,6 +46,16 @@ class OrdersPlacedActivity : AppCompatActivity() {
         binding.rvOrdersPlaced.apply {
             adapter = ordersPlacedAdapter
             layoutManager = GridLayoutManager(this@OrdersPlacedActivity, 1)
+        }
+    }
+
+    private fun goToDetailsOfOrder():OnClickListener{
+        return object :OnClickListener{
+            override fun goToDetailsOrder(orderId: Int) {
+               val intent = Intent(this@OrdersPlacedActivity,OrderRegistrationActivity::class.java)
+               intent.putExtra("idOrder", orderId)
+               startActivity(intent)
+            }
         }
     }
 }

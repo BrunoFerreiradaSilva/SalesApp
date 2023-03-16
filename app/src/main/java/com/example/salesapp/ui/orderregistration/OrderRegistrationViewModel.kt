@@ -7,12 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
 import com.example.salesapp.helpers.DataState
 import com.example.salesapp.model.Item
+import com.example.salesapp.model.Order
 import com.example.salesapp.util.formatForTwoDecimalPlaces
 import com.example.salesapp.util.removeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -63,9 +63,6 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
         val replaceDot = price.removeFormatter()
         val priceForDouble = replaceDot.toDouble()
 
-
-
-
         viewModelScope.launch {
             val item = Item(
                 nameProduct = nameProduct,
@@ -89,6 +86,28 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
     fun saveOrder() {
         viewModelScope.launch {
             repository.saveOrder(listItem)
+        }
+    }
+
+    fun getOrders(orderId: Int){
+        viewModelScope.launch {
+            repository.getOrder(orderId).collect(::getOrder)
+        }
+    }
+
+    private fun getOrder(state: DataState<Order>){
+        when(state){
+            is DataState.Data ->{
+                val listSaved = state.data.listItems
+                _uiState.value = listSaved
+
+                val sumTotal = listSaved.sumOf {
+                    it.total
+                }
+                _priceValue.postValue("R$ ${sumTotal.formatForTwoDecimalPlaces()}")
+                _amountValue.postValue(listSaved.size.toString())
+            }
+            else -> {}
         }
     }
 }

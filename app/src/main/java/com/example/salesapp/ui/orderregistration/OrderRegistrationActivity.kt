@@ -10,6 +10,7 @@ import com.example.salesapp.R
 import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
 import com.example.salesapp.databinding.LayoutIncludeProductBinding
 import com.example.salesapp.util.addCurrencyFormatter
+import com.example.salesapp.util.gone
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,17 +22,16 @@ class OrderRegistrationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOrderRegistrationBinding
     private val viewModel: OrderRegistrationViewModel by viewModels()
-
+    private var orderId: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val ordersRegistrationAdapter = OrdersRegistrationAdapter()
 
-
         binding.rvOrderRegistration.apply {
             adapter = ordersRegistrationAdapter
-            layoutManager = GridLayoutManager(this@OrderRegistrationActivity,1)
+            layoutManager = GridLayoutManager(this@OrderRegistrationActivity, 1)
         }
 
         lifecycleScope.launch {
@@ -39,6 +39,15 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 ordersRegistrationAdapter.submitList(listItem)
                 binding.cvButtons.isVisible = listItem.isNotEmpty()
             }
+        }
+
+        orderId = intent.getIntExtra("idOrder", 0)
+        if (orderId != 0) {
+            viewModel.getOrders(orderId)
+            binding.btnSave.gone()
+            binding.btnAddItem.gone()
+            observerViewModel()
+            binding.tvNumberOrder.text = "Order number $orderId"
         }
 
         binding.btnSave.setOnClickListener {
@@ -50,10 +59,14 @@ class OrderRegistrationActivity : AppCompatActivity() {
             setupBottomDialog()
         }
 
-        viewModel.amountValue.observe(this){amount->
+        observerViewModel()
+    }
+
+    private fun observerViewModel() {
+        viewModel.amountValue.observe(this) { amount ->
             binding.tvResultTotalItems.text = amount
         }
-        viewModel.priceValue.observe(this){price->
+        viewModel.priceValue.observe(this) { price ->
             binding.tvResultTotalValue.text = price
         }
     }

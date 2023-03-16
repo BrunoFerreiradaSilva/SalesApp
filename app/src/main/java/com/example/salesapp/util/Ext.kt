@@ -2,6 +2,7 @@ package com.example.salesapp.util
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import java.text.NumberFormat
 import java.util.*
@@ -47,4 +48,8 @@ fun String.removeFormatter(): String {
 
 fun Double.formatForTwoDecimalPlaces():String{
     return String.format("%.2f",this)
+}
+
+fun View.gone(){
+    this.visibility = View.GONE
 }

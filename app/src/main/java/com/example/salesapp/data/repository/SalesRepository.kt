@@ -6,7 +6,10 @@ import com.example.salesapp.model.Order
 import kotlinx.coroutines.flow.Flow
 
 interface SalesRepository {
-    fun getOrders(): Flow<DataState<List<Order>>>
+    fun getAllOrders(): Flow<DataState<List<Order>>>
     fun insertItem(listItem: List<Item>): Flow<DataState<List<Item>>>
     suspend fun saveOrder(listItem: List<Item>)
+
+     fun getOrder(orderId:Int):Flow<DataState<Order>>
+
 }

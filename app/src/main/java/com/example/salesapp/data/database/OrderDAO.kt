@@ -14,7 +14,7 @@ interface OrderDAO {
     suspend fun getAllOrders(): List<Order>
 
     @Query("SELECT * FROM table_order WHERE id = :orderId")
-    suspend fun getError(orderId: Int): Order
+    suspend fun getOrder(orderId: Int): Order
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

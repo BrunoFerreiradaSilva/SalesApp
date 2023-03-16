@@ -9,7 +9,7 @@ import com.example.salesapp.databinding.ItemOrderRecyclerBinding
 import com.example.salesapp.model.Order
 import com.example.salesapp.util.formatForTwoDecimalPlaces
 
-class OrdersPlacedAdapter : ListAdapter<Order, ViewHolder>(OrdersPlacedAdapter) {
+class OrdersPlacedAdapter(private val listener: OnClickListener) : ListAdapter<Order, ViewHolder>(OrdersPlacedAdapter) {
 
     inner class ItemRecycler(private val itemRecycler: ItemOrderRecyclerBinding) :
         ViewHolder(itemRecycler.root) {
@@ -33,6 +33,9 @@ class OrdersPlacedAdapter : ListAdapter<Order, ViewHolder>(OrdersPlacedAdapter) 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         (holder as ItemRecycler).binding(getItem(position))
+        holder.itemView.setOnClickListener {
+           listener.goToDetailsOrder(getItem(position).id)
+        }
     }
 
     private companion object DiffUtilCallBack : DiffUtil.ItemCallback<Order>() {
@@ -47,4 +50,8 @@ class OrdersPlacedAdapter : ListAdapter<Order, ViewHolder>(OrdersPlacedAdapter) 
             return oldItem == newItem
         }
     }
+}
+
+interface OnClickListener{
+    fun goToDetailsOrder(orderId:Int)
 }
