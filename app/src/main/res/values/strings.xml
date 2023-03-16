@@ -13,11 +13,11 @@
     <string name="include">Incluir</string>
     <string name="price_un">Preço Un:</string>
     <string name="total_price">Total :</string>
-    <string name="total_of_items">Total de items :</string>
-    <string name="total_of_values">Total de valores :</string>
-    <string name="title_toolbar_order">Order</string>
+    <string name="total_of_items">Total items :</string>
+    <string name="total_of_values">Total valores :</string>
+    <string name="title_toolbar_order">Pedido</string>
     <string name="bnt_save">Salvar</string>
-    <string name="order_list">Order list</string>
+    <string name="order_list">Lista de pedidos</string>
     <string name="message_no_item_add">Você ainda não adicionou\n nenhum item !"</string>
     <string name="message_no_order">Você não tem nenhum\n pedido finalizado !</string>
 </resources>

@@ -53,7 +53,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
             binding.btnSave.gone()
             binding.btnAddItem.gone()
             observerViewModel()
-            binding.tvNumberOrder.text = "Order number $orderId"
+            binding.tvNumberOrder.text = "Pedido numero $orderId"
         }
 
         binding.btnSave.setOnClickListener {

@@ -61,7 +61,13 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
         } else if (amount.text.isEmpty()) {
             amount.error = "Digite a quantidade do produto"
             false
-        } else {
+        } else if (price.text.toString().removeFormatter().toDouble() == 0.0){
+            price.error = "Valor tem que ser maior que 0"
+            false
+        }else if (amount.text.toString().toInt() == 0){
+            amount.error = "Quantidade deve ser maior que 0"
+            false
+        }else {
             true
         }
     }
