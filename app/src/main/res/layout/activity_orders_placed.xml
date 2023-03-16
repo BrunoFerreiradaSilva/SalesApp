@@ -30,7 +30,7 @@
             style="@style/textStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order list"
+            android:text="@string/order_list"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="14dp" />
     </androidx.appcompat.widget.Toolbar>
