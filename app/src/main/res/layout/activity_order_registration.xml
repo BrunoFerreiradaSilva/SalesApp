@@ -19,9 +19,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/toobarTextStyle"
+        style="@style/toolbarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -52,7 +53,6 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_order_registration"
         android:layout_width="match_parent"
@@ -69,6 +69,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="10dp"
+        android:translationY="4dp"
         app:layout_constraintBottom_toTopOf="@id/cv_buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,11 +131,10 @@
 
         <Button
             android:id="@+id/btn_save"
-            style="@style/toobarTextStyle"
+            style="@style/toolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_marginBottom="8dp"
             android:background="@drawable/rouded_button"
             android:text="@string/bnt_save"
             android:textAllCaps="false"
@@ -142,7 +142,8 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

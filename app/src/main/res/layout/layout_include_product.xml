@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/tv_title"
-        style="@style/toobarTextStyle"
+        style="@style/toolbarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

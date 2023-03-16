@@ -32,7 +32,7 @@
         <item name="android:fontFamily">@font/dm_sans</item>
     </style>
 
-    <style name="toobarTextStyle">
+    <style name="toolbarStyle">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">20sp</item>
         <item name="android:background">@color/white</item>
