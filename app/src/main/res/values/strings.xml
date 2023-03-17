@@ -2,8 +2,8 @@
     <string name="app_name">SalesApp</string>
     <string name="button_for_created_order">button for created order</string>
     <string name="button_for_include_item">button_for_include_item</string>
-    <string name="product">Produto:</string>
-    <string name="description">Descrição:</string>
+    <string name="product">Produto: </string>
+    <string name="description">Descrição: </string>
     <string name="price">Preço</string>
     <string name="amount">Quantidade</string>
     <string name="name_of_product">Nome do produto</string>
