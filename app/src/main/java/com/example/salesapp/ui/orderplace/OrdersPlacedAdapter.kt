@@ -6,55 +6,46 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.salesapp.databinding.ItemOrderRecyclerBinding
-import com.example.salesapp.model.Order
-import java.text.NumberFormat
+import com.example.salesapp.model.OrderUi
 
-class OrdersPlacedAdapter(private val listener: OnClickListener) :
-    ListAdapter<Order, ViewHolder>(OrdersPlacedAdapter) {
-
-    inner class ItemRecycler(private val itemRecycler: ItemOrderRecyclerBinding) :
+class OrdersPlacedAdapter(private val onOrderClicked: (orderId: Int) -> Unit) :
+    ListAdapter<OrderUi, OrdersPlacedAdapter.ItemOrderViewHolder>(OrdersPlacedAdapter) {
+    inner class ItemOrderViewHolder(private val itemRecycler: ItemOrderRecyclerBinding) :
         ViewHolder(itemRecycler.root) {
-        fun binding(order: Order) {
-            itemRecycler.tvOrderNumber.text = "Pedido numero ${order.id.toString()}"
-            val sumTotal = order.products.sumOf {
-                it.total
-            }
-            itemRecycler.tvTotalOrder.text =
-                "${NumberFormat.getCurrencyInstance().format(sumTotal)}"
-            itemRecycler.tvTotalItems.text = "${order.products.size}"
+        fun binding(orderUi: OrderUi) {
+            itemRecycler.tvOrderNumber.text = orderUi.orderName
+            itemRecycler.tvTotalOrder.text = orderUi.sumTotal
+            itemRecycler.tvTotalItems.text = orderUi.totalProduct
         }
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ViewHolder {
+    ): ItemOrderViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val itemOrderView = ItemOrderRecyclerBinding.inflate(layoutInflater)
-        return ItemRecycler(itemOrderView)
+        return ItemOrderViewHolder(itemOrderView)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        (holder as ItemRecycler).binding(getItem(position))
+    override fun onBindViewHolder(holder: OrdersPlacedAdapter.ItemOrderViewHolder, position: Int) {
+        holder.binding(getItem(position))
         holder.itemView.setOnClickListener {
-            listener.goToDetailsOrder(getItem(position).id)
+            val orderId = getItem(position).orderId
+            onOrderClicked(orderId)
         }
     }
 
-    private companion object DiffUtilCallBack : DiffUtil.ItemCallback<Order>() {
-        override fun areItemsTheSame(oldItem: Order, newItem: Order): Boolean {
-            return oldItem.id == newItem.id
+    private companion object DiffUtilCallBack : DiffUtil.ItemCallback<OrderUi>() {
+        override fun areItemsTheSame(oldItem: OrderUi, newItem: OrderUi): Boolean {
+            return oldItem.orderId == newItem.orderId
         }
 
         override fun areContentsTheSame(
-            oldItem: Order,
-            newItem: Order
+            oldItem: OrderUi,
+            newItem: OrderUi
         ): Boolean {
             return oldItem == newItem
         }
     }
-}
-
-interface OnClickListener {
-    fun goToDetailsOrder(orderId: Int)
 }

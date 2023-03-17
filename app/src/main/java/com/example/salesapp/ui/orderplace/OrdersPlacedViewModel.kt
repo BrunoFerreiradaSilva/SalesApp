@@ -4,17 +4,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
 import com.example.salesapp.model.Order
+import com.example.salesapp.model.OrderUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
 import javax.inject.Inject
 
 @HiltViewModel
 class OrdersPlacedViewModel @Inject constructor(private val repository: SalesRepository) :
     ViewModel() {
 
-    private val _uiState: MutableStateFlow<List<Order>> =
+    private val _uiState: MutableStateFlow<List<OrderUi>> =
         MutableStateFlow(emptyList())
 
     val uiState = _uiState.asStateFlow()
@@ -26,13 +28,17 @@ class OrdersPlacedViewModel @Inject constructor(private val repository: SalesRep
     }
 
     private fun handleGetOrders(listOrder: List<Order>) {
-        _uiState.value = listOrder
-    }
-
-    fun updateList() {
-        viewModelScope.launch {
-            repository.getAllOrders().collect(::handleGetOrders)
+        val listOrderUi = listOrder.map { order ->
+            val sum = order.products.sumOf { it.total }
+            val sumFormat = NumberFormat.getCurrencyInstance().format(sum)
+            val totalProducts = order.products.size.toString()
+            OrderUi(
+                orderId = order.id,
+                orderName = "Pedido numero ${order.id}",
+                sumTotal = sumFormat,
+                totalProduct = totalProducts
+            )
         }
+        _uiState.value = listOrderUi
     }
-
 }

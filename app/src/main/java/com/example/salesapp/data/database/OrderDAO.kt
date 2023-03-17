@@ -6,12 +6,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.salesapp.model.Order
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 @Dao
 interface OrderDAO {
     @Query("SELECT * from table_order ORDER BY id")
-    suspend fun getAllOrders(): List<Order>
+     fun getAllOrders(): Flow<List<Order>>
 
     @Query("SELECT * FROM table_order WHERE id = :orderId")
     suspend fun getOrder(orderId: Int): Order
