@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
-import com.example.salesapp.helpers.DataState
 import com.example.salesapp.model.Item
 import com.example.salesapp.model.Order
 import com.example.salesapp.util.removeFormatter
@@ -34,13 +33,8 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
 
     val uiState = _uiState.asStateFlow()
     private val listItem = mutableListOf<Item>()
-    private fun handleGetOrder(state: DataState<List<Item>>) {
-        when (state) {
-            is DataState.Data -> {
-                _uiState.value = state.data
-            }
-            else -> {}
-        }
+    private fun handleGetOrder(listItems: List<Item>) {
+        _uiState.value = listItems
     }
 
     fun verifyFields(
@@ -61,13 +55,13 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
         } else if (amount.text.isEmpty()) {
             amount.error = "Digite a quantidade do produto"
             false
-        } else if (price.text.toString().removeFormatter().toDouble() == 0.0){
+        } else if (price.text.toString().removeFormatter().toDouble() == 0.0) {
             price.error = "Valor tem que ser maior que 0"
             false
-        }else if (amount.text.toString().toInt() == 0){
+        } else if (amount.text.toString().toInt() == 0) {
             amount.error = "Quantidade deve ser maior que 0"
             false
-        }else {
+        } else {
             true
         }
     }
@@ -113,19 +107,14 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
         }
     }
 
-    private fun getOrder(state: DataState<Order>) {
-        when (state) {
-            is DataState.Data -> {
-                val listSaved = state.data.listItems
-                _uiState.value = listSaved
+    private fun getOrder(order: Order) {
+        val listSaved = order.listItems
+        _uiState.value = listSaved
 
-                val sumTotal = listSaved.sumOf {
-                    it.total
-                }
-                _priceValue.postValue("${NumberFormat.getCurrencyInstance().format(sumTotal)}")
-                _amountValue.postValue(listSaved.size.toString())
-            }
-            else -> {}
+        val sumTotal = listSaved.sumOf {
+            it.total
         }
+        _priceValue.postValue("${NumberFormat.getCurrencyInstance().format(sumTotal)}")
+        _amountValue.postValue(listSaved.size.toString())
     }
 }
