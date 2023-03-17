@@ -1,7 +1,7 @@
 package com.example.salesapp.data.repository
 
 import com.example.salesapp.data.database.OrderDAO
-import com.example.salesapp.model.Item
+import com.example.salesapp.model.Product
 import com.example.salesapp.model.Order
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,12 +13,12 @@ class SalesRepositoryImp @Inject constructor(private val dao: OrderDAO) : SalesR
         emit(geAllOrder)
     }
 
-    override fun insertItem(listItem: List<Item>): Flow<List<Item>> = flow {
+    override fun insertItem(listItem: List<Product>): Flow<List<Product>> = flow {
         emit(listItem)
     }
 
-    override suspend fun saveOrder(listItem: List<Item>){
-        val orderList = Order(listItems = listItem)
+    override suspend fun saveOrder(listItem: List<Product>){
+        val orderList = Order(products = listItem)
         dao.insertOrder(orderList)
     }
 

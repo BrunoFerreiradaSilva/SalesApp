@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
-import com.example.salesapp.model.Item
+import com.example.salesapp.model.Product
 import com.example.salesapp.model.Order
 import com.example.salesapp.util.removeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,12 +28,12 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
         get() = _priceValue
     private val _priceValue = MutableLiveData<String>()
 
-    private val _uiState: MutableStateFlow<List<Item>> =
+    private val _uiState: MutableStateFlow<List<Product>> =
         MutableStateFlow(emptyList())
 
     val uiState = _uiState.asStateFlow()
-    private val listItem = mutableListOf<Item>()
-    private fun handleGetOrder(listItems: List<Item>) {
+    private val listItem = mutableListOf<Product>()
+    private fun handleGetOrder(listItems: List<Product>) {
         _uiState.value = listItems
     }
 
@@ -76,7 +76,7 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
         val priceForDouble = replaceDot.toDouble()
 
         viewModelScope.launch {
-            val item = Item(
+            val item = Product(
                 nameProduct = nameProduct,
                 description = descriptionProduct,
                 price = priceForDouble,
@@ -108,7 +108,7 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
     }
 
     private fun getOrder(order: Order) {
-        val listSaved = order.listItems
+        val listSaved = order.products
         _uiState.value = listSaved
 
         val sumTotal = listSaved.sumOf {

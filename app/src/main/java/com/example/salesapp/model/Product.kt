@@ -1,6 +1,6 @@
 package com.example.salesapp.model
 
-data class Item(
+data class Product(
     val nameProduct:String,
     val description:String,
     val price:Double,

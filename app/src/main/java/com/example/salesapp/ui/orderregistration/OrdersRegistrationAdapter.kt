@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.salesapp.databinding.ItemRegistrationOrderBinding
-import com.example.salesapp.model.Item
+import com.example.salesapp.model.Product
 import java.text.NumberFormat
 
-class OrdersRegistrationAdapter : ListAdapter<Item, ViewHolder>(OrdersRegistrationAdapter) {
+class OrdersRegistrationAdapter : ListAdapter<Product, ViewHolder>(OrdersRegistrationAdapter) {
 
     inner class ItemRecycler(private val itemRecycler: ItemRegistrationOrderBinding) :
         ViewHolder(itemRecycler.root) {
-        fun binding(item: Item) {
+        fun binding(item: Product) {
             itemRecycler.apply {
                 tvResultNameClient.text = item.nameProduct
                 tvResultDescriptionClient.text = item.description
@@ -38,14 +38,14 @@ class OrdersRegistrationAdapter : ListAdapter<Item, ViewHolder>(OrdersRegistrati
         (holder as ItemRecycler).binding(getItem(position))
     }
 
-    private companion object DiffUtilCallBack : DiffUtil.ItemCallback<Item>() {
-        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+    private companion object DiffUtilCallBack : DiffUtil.ItemCallback<Product>() {
+        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: Item,
-            newItem: Item
+            oldItem: Product,
+            newItem: Product
         ): Boolean {
             return oldItem == newItem
         }

@@ -16,12 +16,12 @@ class OrdersPlacedAdapter(private val listener: OnClickListener) :
         ViewHolder(itemRecycler.root) {
         fun binding(order: Order) {
             itemRecycler.tvOrderNumber.text = "Pedido numero ${order.id.toString()}"
-            val sumTotal = order.listItems.sumOf {
+            val sumTotal = order.products.sumOf {
                 it.total
             }
             itemRecycler.tvTotalOrder.text =
                 "${NumberFormat.getCurrencyInstance().format(sumTotal)}"
-            itemRecycler.tvTotalItems.text = "${order.listItems.size}"
+            itemRecycler.tvTotalItems.text = "${order.products.size}"
         }
     }
 
