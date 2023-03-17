@@ -49,7 +49,7 @@
             android:contentDescription="@string/button_for_include_item"
             android:padding="8dp"
             android:src="@drawable/ic_add"
-            app:tint="@color/black" />
+            app:tint="@color/button_color" />
 
     </androidx.appcompat.widget.Toolbar>
 

@@ -71,12 +71,4 @@ class OrdersPlacedActivity : AppCompatActivity() {
             }
         }
     }
-    private fun setAnimation() {
-        val slide = Slide()
-        slide.slideEdge = Gravity.START
-        slide.duration = 500
-        slide.interpolator = AccelerateDecelerateInterpolator()
-        window.exitTransition = slide
-        window.enterTransition = slide
-    }
 }

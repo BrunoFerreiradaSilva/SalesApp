@@ -90,7 +90,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
     }
 
     private fun setupBottomDialog() {
-        val bottomSheet = BottomSheetDialog(this, R.style.DialogStyle)
+        val bottomSheet = BottomSheetDialog(this, R.style.ThemeOverlay_App_BottomSheetDialog)
         val bindingProduct = LayoutIncludeProductBinding.inflate(layoutInflater)
         bottomSheet.setContentView(bindingProduct.root)
         bottomSheet.behavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -128,14 +128,5 @@ class OrderRegistrationActivity : AppCompatActivity() {
             }
 
         }
-    }
-
-    private fun setAnimation() {
-        val slide = Slide()
-        slide.slideEdge = Gravity.END
-        slide.duration = 500
-        slide.interpolator = AccelerateDecelerateInterpolator()
-        window.exitTransition = slide
-        window.enterTransition = slide
     }
 }
