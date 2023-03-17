@@ -14,17 +14,13 @@ class SalesRepositoryImp @Inject constructor(private val dao: OrderDAO) : SalesR
         }
     }
 
-    override fun insertItem(listItem: List<Product>): Flow<List<Product>> = flow {
-        emit(listItem)
-    }
-
     override suspend fun saveOrder(listItem: List<Product>) {
         val orderList = Order(products = listItem)
         dao.insertOrder(orderList)
     }
 
-    override fun getOrder(orderId: Int): Flow<Order> = flow {
-        emit(dao.getOrder(orderId))
+    override suspend fun getOrder(orderId: Int): Order{
+        return dao.getOrder(orderId)
     }
 
 }

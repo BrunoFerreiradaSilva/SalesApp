@@ -13,6 +13,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
+const val INTENT_EXTRA_ORDER_ID = "idOrder"
+
 @AndroidEntryPoint
 class OrdersPlacedActivity : AppCompatActivity() {
 
@@ -39,9 +41,6 @@ class OrdersPlacedActivity : AppCompatActivity() {
         binding.fbCreatedOrder.setOnClickListener {
             val intent = Intent(this, OrderRegistrationActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(
-                com.google.android.material.R.anim.m3_side_sheet_slide_in,
-                com.google.android.material.R.anim.m3_side_sheet_slide_out)
         }
     }
 
@@ -53,10 +52,7 @@ class OrdersPlacedActivity : AppCompatActivity() {
     }
     private fun goToOrderDetails(orderId:Int){
         val intent = Intent(this@OrdersPlacedActivity,OrderRegistrationActivity::class.java)
-        intent.putExtra("idOrder", orderId)
+        intent.putExtra(INTENT_EXTRA_ORDER_ID, orderId)
         startActivity(intent)
-        overridePendingTransition(
-            com.google.android.material.R.anim.m3_side_sheet_slide_in,
-            com.google.android.material.R.anim.m3_side_sheet_slide_out)
     }
 }

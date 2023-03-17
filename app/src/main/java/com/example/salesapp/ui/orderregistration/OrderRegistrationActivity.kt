@@ -1,11 +1,6 @@
 package com.example.salesapp.ui.orderregistration
 
-import android.app.ActivityOptions
-import android.content.Intent
 import android.os.Bundle
-import android.transition.Slide
-import android.view.Gravity
-import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -14,7 +9,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.salesapp.R
 import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
 import com.example.salesapp.databinding.LayoutIncludeProductBinding
-import com.example.salesapp.ui.orderplace.OrdersPlacedActivity
+import com.example.salesapp.model.OrderUiData
+import com.example.salesapp.ui.orderplace.INTENT_EXTRA_ORDER_ID
 import com.example.salesapp.util.addCurrencyFormatter
 import com.example.salesapp.util.gone
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -27,12 +23,15 @@ import kotlinx.coroutines.launch
 class OrderRegistrationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOrderRegistrationBinding
+
     private val viewModel: OrderRegistrationViewModel by viewModels()
-    private var orderId: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val orderId = intent.getIntExtra(INTENT_EXTRA_ORDER_ID, 0)
 
         val ordersRegistrationAdapter = OrdersRegistrationAdapter()
 
@@ -42,30 +41,22 @@ class OrderRegistrationActivity : AppCompatActivity() {
         }
 
         binding.btnBack.setOnClickListener {
-            val intent = Intent(this,OrdersPlacedActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(
-                com.google.android.material.R.anim.m3_side_sheet_slide_in,
-                com.google.android.material.R.anim.m3_side_sheet_slide_out);
             finish()
         }
 
         lifecycleScope.launch {
-            viewModel.uiState.collect { listItem ->
-                ordersRegistrationAdapter.submitList(listItem)
-                binding.cvButtons.isVisible = listItem.isNotEmpty()
-                binding.emptyList.clEmptyList.isVisible = listItem.isEmpty()
-                binding.emptyList.tvMessage.text = getString(R.string.message_no_item_add)
+            viewModel.uiState.collect { orderUiData ->
+                handleOrderUIDataCollected(orderUiData, ordersRegistrationAdapter)
             }
         }
 
-        orderId = intent.getIntExtra("idOrder", 0)
         if (orderId != 0) {
-            viewModel.getOrders(orderId)
-            binding.btnSave.gone()
-            binding.btnAddItem.gone()
-            observerViewModel()
-            binding.tvNumberOrder.text = "Pedido numero $orderId"
+            viewModel.getOrder(orderId)
+            binding.apply {
+                btnSave.gone()
+                btnAddItem.gone()
+                tvNumberOrder.text = getString(R.string.order_number, orderId.toString())
+            }
         }
 
         binding.btnSave.setOnClickListener {
@@ -77,15 +68,20 @@ class OrderRegistrationActivity : AppCompatActivity() {
             setupBottomDialog()
         }
 
-        observerViewModel()
     }
 
-    private fun observerViewModel() {
-        viewModel.amountValue.observe(this) { amount ->
-            binding.tvResultTotalItems.text = amount
-        }
-        viewModel.priceValue.observe(this) { price ->
-            binding.tvResultTotalValue.text = price
+    private fun handleOrderUIDataCollected(
+        orderUiData: OrderUiData,
+        ordersRegistrationAdapter: OrdersRegistrationAdapter
+    ) {
+        orderUiData.apply {
+            ordersRegistrationAdapter.submitList(products)
+
+            binding.cvButtons.isVisible = showSaveButton
+            binding.emptyList.clEmptyList.isVisible = showEmptyState
+            binding.emptyList.tvMessage.text = getString(R.string.message_no_item_add)
+            binding.tvResultTotalItems.text = productsTotalCount
+            binding.tvResultTotalValue.text = totalValueOrder
         }
     }
 
@@ -109,24 +105,24 @@ class OrderRegistrationActivity : AppCompatActivity() {
         bottomSheet: BottomSheetDialog
     ) {
         bindingProduct.apply {
-            if (viewModel.verifyFields(
-                    tieProductName,
-                    tieProductDescription,
-                    tiePrice,
-                    tieAmount
-                )
-            ) {
-                viewModel.insertProduct(
-                    tieProductName.text.toString(),
-                    tieProductDescription.text.toString(),
-                    tiePrice.text.toString(),
-                    tieAmount.text.toString()
-                )
+            val productName = tieProductName.text.toString()
+            val productDescription = tieProductDescription.text.toString()
+            val productPrice = tiePrice.text.toString()
+            val productAmount = tieAmount.text.toString()
+
+            val isAllFieldsValid = viewModel.verifyFields(productName, productDescription, productPrice, productAmount)
+
+            if (isAllFieldsValid) {
+                viewModel.insertProduct(productName, productDescription, productPrice, productAmount)
                 bottomSheet.dismiss()
             } else {
-                return
+                tieProductName.error = "Digite o nome do produto"
+                tieProductDescription.error = "Digite a descrição do produto"
+                tiePrice.error = "Digite o valor do produto"
+                tiePrice.error = "Valor tem que ser maior que 0"
+                tieAmount.error = "Digite a quantidade do produto"
+                tieAmount.error = "Quantidade deve ser maior que 0"
             }
-
         }
     }
 }

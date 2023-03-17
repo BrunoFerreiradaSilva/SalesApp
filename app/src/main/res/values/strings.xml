@@ -20,4 +20,5 @@
     <string name="order_list">Lista de pedidos</string>
     <string name="message_no_item_add">Você ainda não adicionou\n nenhum item !"</string>
     <string name="message_no_order">Você não tem nenhum\n pedido finalizado !</string>
+    <string name="order_number">Pedido numero %s</string>
 </resources>
