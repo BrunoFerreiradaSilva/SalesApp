@@ -10,6 +10,7 @@ import com.example.salesapp.R
 import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
 import com.example.salesapp.databinding.LayoutIncludeProductBinding
 import com.example.salesapp.model.OrderUiData
+import com.example.salesapp.model.ProductValidationError
 import com.example.salesapp.ui.orderplace.INTENT_EXTRA_ORDER_ID
 import com.example.salesapp.util.addCurrencyFormatter
 import com.example.salesapp.util.gone
@@ -110,18 +111,22 @@ class OrderRegistrationActivity : AppCompatActivity() {
             val productPrice = tiePrice.text.toString()
             val productAmount = tieAmount.text.toString()
 
-            val isAllFieldsValid = viewModel.verifyFields(productName, productDescription, productPrice, productAmount)
+            val validationErrors = viewModel.validateFields(productName, productDescription, productPrice, productAmount)
 
-            if (isAllFieldsValid) {
+            if (validationErrors.isEmpty()) {
                 viewModel.insertProduct(productName, productDescription, productPrice, productAmount)
                 bottomSheet.dismiss()
             } else {
-                tieProductName.error = "Digite o nome do produto"
-                tieProductDescription.error = "Digite a descrição do produto"
-                tiePrice.error = "Digite o valor do produto"
-                tiePrice.error = "Valor tem que ser maior que 0"
-                tieAmount.error = "Digite a quantidade do produto"
-                tieAmount.error = "Quantidade deve ser maior que 0"
+                validationErrors.forEach {validationError ->
+                    when(validationError){
+                        ProductValidationError.EmptyProductAmount ->  tieAmount.error = getString(R.string.error_product_amount_is_empty)
+                        ProductValidationError.EmptyProductDescription -> tieProductDescription.error = getString(R.string.error_product_description_is_empty)
+                        ProductValidationError.EmptyProductNameError -> tieProductName.error = getString(R.string.error_product_name_is_empty)
+                        ProductValidationError.EmptyProductPrice -> tiePrice.error = getString(R.string.error_product_price_is_empty)
+                        ProductValidationError.PriceIsZeroError ->   tiePrice.error = getString(R.string.error_product_price_is_zero)
+                        ProductValidationError.AmountIsZeroError -> tieAmount.error = getString(R.string.error_amount_is_zero)
+                    }
+                }
             }
         }
     }
