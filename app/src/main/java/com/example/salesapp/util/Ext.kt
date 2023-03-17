@@ -50,3 +50,4 @@ fun String.removeFormatter(): String {
 fun View.gone(){
     this.visibility = View.GONE
 }
+

@@ -1,6 +1,11 @@
 package com.example.salesapp.ui.orderregistration
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.os.Bundle
+import android.transition.Slide
+import android.view.Gravity
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -9,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.salesapp.R
 import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
 import com.example.salesapp.databinding.LayoutIncludeProductBinding
+import com.example.salesapp.ui.orderplace.OrdersPlacedActivity
 import com.example.salesapp.util.addCurrencyFormatter
 import com.example.salesapp.util.gone
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -27,6 +33,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         val ordersRegistrationAdapter = OrdersRegistrationAdapter()
 
         binding.rvOrderRegistration.apply {
@@ -35,6 +42,11 @@ class OrderRegistrationActivity : AppCompatActivity() {
         }
 
         binding.btnBack.setOnClickListener {
+            val intent = Intent(this,OrdersPlacedActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(
+                com.google.android.material.R.anim.m3_side_sheet_slide_in,
+                com.google.android.material.R.anim.m3_side_sheet_slide_out);
             finish()
         }
 
@@ -116,5 +128,14 @@ class OrderRegistrationActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun setAnimation() {
+        val slide = Slide()
+        slide.slideEdge = Gravity.END
+        slide.duration = 500
+        slide.interpolator = AccelerateDecelerateInterpolator()
+        window.exitTransition = slide
+        window.enterTransition = slide
     }
 }

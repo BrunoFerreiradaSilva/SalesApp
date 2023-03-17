@@ -1,17 +1,22 @@
 package com.example.salesapp.ui.orderplace
 
+import android.app.ActivityOptions
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.transition.Slide
+import android.view.Gravity
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.salesapp.databinding.ActivityOrdersPlacedBinding
 import com.example.salesapp.ui.orderregistration.OrderRegistrationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class OrdersPlacedActivity : AppCompatActivity() {
@@ -23,7 +28,7 @@ class OrdersPlacedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOrdersPlacedBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        //setAnimation()
         setupAdapter(ordersPlacedAdapter)
 
         lifecycleScope.launch {
@@ -36,7 +41,11 @@ class OrdersPlacedActivity : AppCompatActivity() {
 
 
         binding.fbCreatedOrder.setOnClickListener {
-            startActivity(Intent(this, OrderRegistrationActivity::class.java))
+            val intent = Intent(this, OrderRegistrationActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(
+                com.google.android.material.R.anim.m3_side_sheet_slide_in,
+                com.google.android.material.R.anim.m3_side_sheet_slide_out)
         }
     }
 
@@ -61,5 +70,13 @@ class OrdersPlacedActivity : AppCompatActivity() {
                startActivity(intent)
             }
         }
+    }
+    private fun setAnimation() {
+        val slide = Slide()
+        slide.slideEdge = Gravity.START
+        slide.duration = 500
+        slide.interpolator = AccelerateDecelerateInterpolator()
+        window.exitTransition = slide
+        window.enterTransition = slide
     }
 }

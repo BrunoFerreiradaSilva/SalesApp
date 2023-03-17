@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:elevation="4dp"
         app:cardCornerRadius="20sp"
+        android:background="?android:attr/selectableItemBackground"
         app:cardUseCompatPadding="true"
         app:layout_constraintTop_toTopOf="parent">
 
