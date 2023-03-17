@@ -10,14 +10,6 @@ import com.example.salesapp.model.OrderUi
 
 class OrdersPlacedAdapter(private val onOrderClicked: (orderId: Int) -> Unit) :
     ListAdapter<OrderUi, OrdersPlacedAdapter.ItemOrderViewHolder>(OrdersPlacedAdapter) {
-    inner class ItemOrderViewHolder(private val itemRecycler: ItemOrderRecyclerBinding) :
-        ViewHolder(itemRecycler.root) {
-        fun binding(orderUi: OrderUi) {
-            itemRecycler.tvOrderNumber.text = orderUi.orderName
-            itemRecycler.tvTotalOrder.text = orderUi.sumTotal
-            itemRecycler.tvTotalItems.text = orderUi.totalProduct
-        }
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -33,6 +25,15 @@ class OrdersPlacedAdapter(private val onOrderClicked: (orderId: Int) -> Unit) :
         holder.itemView.setOnClickListener {
             val orderId = getItem(position).orderId
             onOrderClicked(orderId)
+        }
+    }
+
+    inner class ItemOrderViewHolder(private val itemRecycler: ItemOrderRecyclerBinding) :
+        ViewHolder(itemRecycler.root) {
+        fun binding(orderUi: OrderUi) {
+            itemRecycler.tvOrderNumber.text = orderUi.orderName
+            itemRecycler.tvTotalOrder.text = orderUi.orderTotal
+            itemRecycler.tvTotalItems.text = orderUi.orderProductCount
         }
     }
 

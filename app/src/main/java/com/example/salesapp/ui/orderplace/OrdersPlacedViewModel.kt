@@ -30,13 +30,13 @@ class OrdersPlacedViewModel @Inject constructor(private val repository: SalesRep
     private fun handleGetOrders(listOrder: List<Order>) {
         val listOrderUi = listOrder.map { order ->
             val sum = order.products.sumOf { it.total }
-            val sumFormat = NumberFormat.getCurrencyInstance().format(sum)
-            val totalProducts = order.products.size.toString()
+            val orderTotal = NumberFormat.getCurrencyInstance().format(sum)
+            val orderProductCount = order.products.size.toString()
             OrderUi(
                 orderId = order.id,
                 orderName = "Pedido numero ${order.id}",
-                sumTotal = sumFormat,
-                totalProduct = totalProducts
+                orderTotal = orderTotal,
+                orderProductCount = orderProductCount
             )
         }
         _uiState.value = listOrderUi

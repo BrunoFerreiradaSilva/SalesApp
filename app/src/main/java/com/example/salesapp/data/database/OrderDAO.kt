@@ -12,13 +12,11 @@ import java.util.*
 @Dao
 interface OrderDAO {
     @Query("SELECT * from table_order ORDER BY id")
-     fun getAllOrders(): Flow<List<Order>>
+    fun getAllOrders(): Flow<List<Order>>
 
     @Query("SELECT * FROM table_order WHERE id = :orderId")
     suspend fun getOrder(orderId: Int): Order
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrder(order: Order)
-
 }
