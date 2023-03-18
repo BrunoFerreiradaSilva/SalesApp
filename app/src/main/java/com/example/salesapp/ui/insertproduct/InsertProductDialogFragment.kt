@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import androidx.fragment.app.viewModels
 import com.example.salesapp.R
 import com.example.salesapp.databinding.LayoutIncludeProductBinding
-import com.example.salesapp.model.Product
 import com.example.salesapp.model.ProductUi
 import com.example.salesapp.model.ProductValidationError
 import com.example.salesapp.util.addCurrencyFormatter
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -44,12 +41,9 @@ class InsertProductDialogFragment(private val onReceivedListProducts: (product: 
 
         binding = LayoutIncludeProductBinding.inflate(layoutInflater)
 
-
         binding.tiePrice.addCurrencyFormatter()
 
-        binding.btnIncludeProduct.setOnClickListener {
-            verifyFields()
-        }
+        binding.btnIncludeProduct.setOnClickListener { verifyFields() }
 
         return binding.root
     }
@@ -63,20 +57,12 @@ class InsertProductDialogFragment(private val onReceivedListProducts: (product: 
             val productAmount = tieAmount.text.toString()
 
             val validationErrors = viewModel.validateFields(
-                productName,
-                productDescription,
-                productPrice,
-                productAmount
+                productName, productDescription, productPrice, productAmount
             )
 
             if (validationErrors.isEmpty()) {
                 onReceivedListProducts(
-                    ProductUi(
-                        productName,
-                        productDescription,
-                        productPrice,
-                        productAmount
-                    )
+                    ProductUi(productName, productDescription, productPrice, productAmount)
                 )
                 dialog?.dismiss()
             } else {
@@ -103,6 +89,4 @@ class InsertProductDialogFragment(private val onReceivedListProducts: (product: 
             }
         }
     }
-
-
 }

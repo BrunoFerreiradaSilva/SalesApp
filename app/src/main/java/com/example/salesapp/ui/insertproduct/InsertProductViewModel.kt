@@ -1,14 +1,13 @@
 package com.example.salesapp.ui.insertproduct
 
 import androidx.lifecycle.ViewModel
-import com.example.salesapp.data.repository.SalesRepository
 import com.example.salesapp.model.ProductValidationError
 import com.example.salesapp.util.removeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class InsertProductViewModel @Inject constructor(private val repository: SalesRepository) : ViewModel() {
+class InsertProductViewModel @Inject constructor() : ViewModel() {
 
     fun validateFields(
         nameProduct: String, descriptionProduct: String, price: String, amount: String

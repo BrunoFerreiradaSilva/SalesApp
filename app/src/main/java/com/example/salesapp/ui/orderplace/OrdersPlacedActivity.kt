@@ -50,8 +50,9 @@ class OrdersPlacedActivity : AppCompatActivity() {
             layoutManager = GridLayoutManager(this@OrdersPlacedActivity, 1)
         }
     }
-    private fun goToOrderDetails(orderId:Int){
-        val intent = Intent(this@OrdersPlacedActivity,OrderRegistrationActivity::class.java)
+
+    private fun goToOrderDetails(orderId: Int) {
+        val intent = Intent(this@OrdersPlacedActivity, OrderRegistrationActivity::class.java)
         intent.putExtra(INTENT_EXTRA_ORDER_ID, orderId)
         startActivity(intent)
     }

@@ -4,15 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
 import com.example.salesapp.model.Order
-import com.example.salesapp.model.Product
 import com.example.salesapp.model.OrderUiData
-import com.example.salesapp.model.ProductValidationError
-import com.example.salesapp.model.ProductValidationError.EmptyProductNameError
-import com.example.salesapp.model.ProductValidationError.EmptyProductDescription
-import com.example.salesapp.model.ProductValidationError.EmptyProductPrice
-import com.example.salesapp.model.ProductValidationError.EmptyProductAmount
-import com.example.salesapp.model.ProductValidationError.PriceIsZeroError
-import com.example.salesapp.model.ProductValidationError.AmountIsZeroError
+import com.example.salesapp.model.Product
 import com.example.salesapp.util.removeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

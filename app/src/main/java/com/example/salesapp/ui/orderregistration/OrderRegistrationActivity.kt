@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.salesapp.R
 import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
 import com.example.salesapp.model.OrderUiData
+import com.example.salesapp.model.ProductUi
 import com.example.salesapp.ui.insertproduct.InsertProductDialogFragment
 import com.example.salesapp.ui.orderplace.INTENT_EXTRA_ORDER_ID
 import com.example.salesapp.util.gone
@@ -58,16 +59,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 btnDelete.visible()
                 btnEdit.visible()
                 btnDelete.setOnClickListener {
-                    val alertDialog = AlertDialog.Builder(this@OrderRegistrationActivity)
-                    alertDialog.setTitle(getString(R.string.title_delete_dialog))
-                    alertDialog.setPositiveButton(
-                        getString(R.string.positive_button_dialog)
-                    ) { _, _ ->
-                        viewModel.deleteOrder(orderId)
-                        finish()
-                    }
-                    alertDialog.setNegativeButton(getString(R.string.negative_button_dialog), null)
-                    alertDialog.show()
+                    alertDialogForDelete(orderId)
                 }
             }
         }
@@ -79,16 +71,33 @@ class OrderRegistrationActivity : AppCompatActivity() {
 
         binding.btnAddItem.setOnClickListener {
             val dialogFragment = InsertProductDialogFragment { product ->
-                viewModel.insertProduct(
-                    product.nameProduct,
-                    product.description,
-                    product.price,
-                    product.amount
-                )
+                getProductUi(product)
             }
             dialogFragment.show(supportFragmentManager, dialogFragment.tag)
         }
 
+    }
+
+    private fun alertDialogForDelete(orderId: Int) {
+        val alertDialog = AlertDialog.Builder(this@OrderRegistrationActivity)
+        alertDialog.setTitle(getString(R.string.title_delete_dialog))
+        alertDialog.setPositiveButton(
+            getString(R.string.positive_button_dialog)
+        ) { _, _ ->
+            viewModel.deleteOrder(orderId)
+            finish()
+        }
+        alertDialog.setNegativeButton(getString(R.string.negative_button_dialog), null)
+        alertDialog.show()
+    }
+
+    private fun getProductUi(product: ProductUi) {
+        viewModel.insertProduct(
+            product.nameProduct,
+            product.description,
+            product.price,
+            product.amount
+        )
     }
 
     private fun handleOrderUIDataCollected(
