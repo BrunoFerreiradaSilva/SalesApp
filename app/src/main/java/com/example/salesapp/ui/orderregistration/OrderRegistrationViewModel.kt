@@ -114,4 +114,10 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
             _uiState.value = updateOrderUiData
         }
     }
+
+    fun deleteOrder(orderId: Int){
+        viewModelScope.launch {
+            repository.deleteOrder(orderId)
+        }
+    }
 }

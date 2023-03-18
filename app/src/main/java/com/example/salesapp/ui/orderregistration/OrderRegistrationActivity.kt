@@ -1,7 +1,10 @@
 package com.example.salesapp.ui.orderregistration
 
+import android.content.DialogInterface
+import android.content.DialogInterface.OnClickListener
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +17,7 @@ import com.example.salesapp.model.ProductValidationError
 import com.example.salesapp.ui.orderplace.INTENT_EXTRA_ORDER_ID
 import com.example.salesapp.util.addCurrencyFormatter
 import com.example.salesapp.util.gone
+import com.example.salesapp.util.visible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,6 +61,17 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 btnSave.gone()
                 btnAddItem.gone()
                 tvNumberOrder.text = getString(R.string.order_number, orderId.toString())
+                btnDelete.visible()
+                btnDelete.setOnClickListener {
+                    val alertDialog = AlertDialog.Builder(this@OrderRegistrationActivity)
+                    alertDialog.setTitle(getString(R.string.title_delete_dialog))
+                    alertDialog.setPositiveButton(getString(R.string.positive_button_dialog)
+                    ) { _, _ ->  viewModel.deleteOrder(orderId)
+                        finish()
+                    }
+                    alertDialog.setNegativeButton(getString(R.string.negative_button_dialog), null)
+                    alertDialog.show()
+                }
             }
         }
 

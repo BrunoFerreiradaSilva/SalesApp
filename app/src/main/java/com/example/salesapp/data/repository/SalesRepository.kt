@@ -8,5 +8,5 @@ interface SalesRepository {
     fun getAllOrders(): Flow<List<Order>>
     suspend fun saveOrder(listItem: List<Product>)
     suspend fun getOrder(orderId: Int): Order
-
+    suspend fun deleteOrder(orderId: Int)
 }
