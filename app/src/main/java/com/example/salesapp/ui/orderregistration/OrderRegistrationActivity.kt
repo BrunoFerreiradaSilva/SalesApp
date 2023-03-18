@@ -56,6 +56,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 btnAddItem.gone()
                 tvNumberOrder.text = getString(R.string.order_number, orderId.toString())
                 btnDelete.visible()
+                btnEdit.visible()
                 btnDelete.setOnClickListener {
                     val alertDialog = AlertDialog.Builder(this@OrderRegistrationActivity)
                     alertDialog.setTitle(getString(R.string.title_delete_dialog))
