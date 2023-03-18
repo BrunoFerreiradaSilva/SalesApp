@@ -18,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,7 +40,7 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
         if (amount.isEmpty()) productValidationErrors.add(EmptyProductAmount)
         if (price.removeFormatter().isNotEmpty() && price.removeFormatter().toDouble() == 0.0)
             productValidationErrors.add(PriceIsZeroError)
-        if (amount.isNotEmpty() && amount.toInt() != 0)
+        if (amount.isNotEmpty() && amount.toInt() == 0)
             productValidationErrors.add(AmountIsZeroError)
 
         return productValidationErrors.toList()
@@ -73,13 +74,14 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
         updateProductList.add(product)
 
         val totalValueOrder = updateProductList.sumOf { it.total }
+        val totalValueOrderFormatForMoney = NumberFormat.getCurrencyInstance().format(totalValueOrder)
         val showEmptyState = updateProductList.isEmpty()
         val showSaveButton = updateProductList.isNotEmpty()
         val productsTotalCount = updateProductList.size
 
         return OrderUiData(
             products = updateProductList,
-            totalValueOrder = "$totalValueOrder",
+            totalValueOrder = totalValueOrderFormatForMoney,
             showEmptyState = showEmptyState,
             showSaveButton = showSaveButton,
             productsTotalCount = "$productsTotalCount"
@@ -98,11 +100,12 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
             val order: Order = repository.getOrder(orderId)
 
             val totalValueOrder = order.products.sumOf { it.total }
+            val totalValueOrderFormatForMoney = NumberFormat.getCurrencyInstance().format(totalValueOrder)
             val productsTotalCount = order.products.size
 
             val updateOrderUiData = OrderUiData(
                 products = order.products,
-                totalValueOrder = "$totalValueOrder",
+                totalValueOrder = totalValueOrderFormatForMoney,
                 showEmptyState = false,
                 showSaveButton = false,
                 productsTotalCount = "$productsTotalCount"

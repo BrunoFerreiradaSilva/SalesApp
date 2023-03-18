@@ -77,12 +77,13 @@ class OrderRegistrationActivity : AppCompatActivity() {
     ) {
         orderUiData.apply {
             ordersRegistrationAdapter.submitList(products)
-
-            binding.cvButtons.isVisible = showSaveButton
-            binding.emptyList.clEmptyList.isVisible = showEmptyState
-            binding.emptyList.tvMessage.text = getString(R.string.message_no_item_add)
-            binding.tvResultTotalItems.text = productsTotalCount
-            binding.tvResultTotalValue.text = totalValueOrder
+            binding.apply {
+                cvButtons.isVisible = showSaveButton
+                emptyList.clEmptyList.isVisible = showEmptyState
+                emptyList.tvMessage.text = getString(R.string.message_no_item_add)
+                tvResultTotalItems.text = productsTotalCount
+                tvResultTotalValue.text = totalValueOrder
+            }
         }
     }
 

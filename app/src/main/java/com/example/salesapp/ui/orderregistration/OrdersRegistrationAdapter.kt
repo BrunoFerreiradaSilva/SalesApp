@@ -18,10 +18,9 @@ class OrdersRegistrationAdapter : ListAdapter<Product, ViewHolder>(OrdersRegistr
                 tvResultNameClient.text = item.nameProduct
                 tvResultDescriptionClient.text = item.description
                 tvAmountProduct.text = "${item.amount}"
-                tvPriceUn.text = "${NumberFormat.getCurrencyInstance().format(item.price)}"
-                tvTotalValue.text = "${NumberFormat.getCurrencyInstance().format(item.total)}"
+                tvPriceUn.text = NumberFormat.getCurrencyInstance().format(item.price)
+                tvTotalValue.text = NumberFormat.getCurrencyInstance().format(item.total)
             }
-
         }
     }
 
