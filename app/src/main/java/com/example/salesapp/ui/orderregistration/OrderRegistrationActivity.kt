@@ -57,7 +57,6 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 btnAddItem.gone()
                 tvNumberOrder.text = getString(R.string.order_number, orderId.toString())
                 btnDelete.visible()
-                btnEdit.visible()
                 btnDelete.setOnClickListener {
                     alertDialogForDelete(orderId)
                 }
