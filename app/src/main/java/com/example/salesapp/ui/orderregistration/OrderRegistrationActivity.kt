@@ -1,7 +1,5 @@
 package com.example.salesapp.ui.orderregistration
 
-import android.content.DialogInterface
-import android.content.DialogInterface.OnClickListener
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -11,15 +9,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.salesapp.R
 import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
-import com.example.salesapp.databinding.LayoutIncludeProductBinding
 import com.example.salesapp.model.OrderUiData
-import com.example.salesapp.model.ProductValidationError
+import com.example.salesapp.ui.insertproduct.InsertProductDialogFragment
 import com.example.salesapp.ui.orderplace.INTENT_EXTRA_ORDER_ID
-import com.example.salesapp.util.addCurrencyFormatter
 import com.example.salesapp.util.gone
 import com.example.salesapp.util.visible
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -65,8 +59,10 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 btnDelete.setOnClickListener {
                     val alertDialog = AlertDialog.Builder(this@OrderRegistrationActivity)
                     alertDialog.setTitle(getString(R.string.title_delete_dialog))
-                    alertDialog.setPositiveButton(getString(R.string.positive_button_dialog)
-                    ) { _, _ ->  viewModel.deleteOrder(orderId)
+                    alertDialog.setPositiveButton(
+                        getString(R.string.positive_button_dialog)
+                    ) { _, _ ->
+                        viewModel.deleteOrder(orderId)
                         finish()
                     }
                     alertDialog.setNegativeButton(getString(R.string.negative_button_dialog), null)
@@ -81,7 +77,15 @@ class OrderRegistrationActivity : AppCompatActivity() {
         }
 
         binding.btnAddItem.setOnClickListener {
-            setupBottomDialog()
+            val dialogFragment = InsertProductDialogFragment { product ->
+                viewModel.insertProduct(
+                    product.nameProduct,
+                    product.description,
+                    product.price,
+                    product.amount
+                )
+            }
+            dialogFragment.show(supportFragmentManager, dialogFragment.tag)
         }
 
     }
@@ -98,51 +102,6 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 emptyList.tvMessage.text = getString(R.string.message_no_item_add)
                 tvResultTotalItems.text = productsTotalCount
                 tvResultTotalValue.text = totalValueOrder
-            }
-        }
-    }
-
-    private fun setupBottomDialog() {
-        val bottomSheet = BottomSheetDialog(this, R.style.ThemeOverlay_App_BottomSheetDialog)
-        val bindingProduct = LayoutIncludeProductBinding.inflate(layoutInflater)
-        bottomSheet.setContentView(bindingProduct.root)
-        bottomSheet.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-
-        bottomSheet.show()
-
-        bindingProduct.tiePrice.addCurrencyFormatter()
-
-        bindingProduct.btnIncludeProduct.setOnClickListener {
-            verifyFields(bindingProduct, bottomSheet)
-        }
-    }
-
-    private fun verifyFields(
-        bindingProduct: LayoutIncludeProductBinding,
-        bottomSheet: BottomSheetDialog
-    ) {
-        bindingProduct.apply {
-            val productName = tieProductName.text.toString()
-            val productDescription = tieProductDescription.text.toString()
-            val productPrice = tiePrice.text.toString()
-            val productAmount = tieAmount.text.toString()
-
-            val validationErrors = viewModel.validateFields(productName, productDescription, productPrice, productAmount)
-
-            if (validationErrors.isEmpty()) {
-                viewModel.insertProduct(productName, productDescription, productPrice, productAmount)
-                bottomSheet.dismiss()
-            } else {
-                validationErrors.forEach {validationError ->
-                    when(validationError){
-                        ProductValidationError.EmptyProductAmount ->  tieAmount.error = getString(R.string.error_product_amount_is_empty)
-                        ProductValidationError.EmptyProductDescription -> tieProductDescription.error = getString(R.string.error_product_description_is_empty)
-                        ProductValidationError.EmptyProductNameError -> tieProductName.error = getString(R.string.error_product_name_is_empty)
-                        ProductValidationError.EmptyProductPrice -> tiePrice.error = getString(R.string.error_product_price_is_empty)
-                        ProductValidationError.PriceIsZeroError ->   tiePrice.error = getString(R.string.error_product_price_is_zero)
-                        ProductValidationError.AmountIsZeroError -> tieAmount.error = getString(R.string.error_amount_is_zero)
-                    }
-                }
             }
         }
     }

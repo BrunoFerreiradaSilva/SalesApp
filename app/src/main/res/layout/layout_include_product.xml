@@ -20,12 +20,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_product_name"
-        android:layout_width="match_parent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/black"
         android:layout_margin="10dp"
         android:hint="@string/name_of_product"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title">
@@ -39,12 +39,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_product_description"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textColorHint="@color/black"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="@string/description_of_product"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/til_product_name"
         app:layout_constraintStart_toStartOf="@+id/til_product_name"
         app:layout_constraintTop_toBottomOf="@+id/til_product_name">
@@ -58,9 +58,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_price"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_margin="10dp"
         android:hint="@string/price"
         android:textColorHint="@color/black"
@@ -78,12 +78,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_amount"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:hint="@string/amount"
         android:textColorHint="@color/black"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="@id/til_product_description"
         app:layout_constraintStart_toEndOf="@id/til_price"
         app:layout_constraintTop_toBottomOf="@id/til_product_description">
@@ -96,18 +96,29 @@
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
+    <androidx.cardview.widget.CardView
         android:id="@+id/btn_include_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="20sp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/rounded_button"
-        android:text="@string/include"
-        android:textAllCaps="false"
+        android:layout_margin="10dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:backgroundTint="@color/button_color"
+        android:elevation="4dp"
+        app:cardCornerRadius="20sp"
+        app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_price" />
+        app:layout_constraintTop_toBottomOf="@id/til_price">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:text="@string/include"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

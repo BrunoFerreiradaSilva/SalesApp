@@ -29,21 +29,38 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
 
     val uiState = _uiState.asStateFlow()
 
-    fun validateFields(
-        nameProduct: String, descriptionProduct: String, price: String, amount: String
-    ): List<ProductValidationError> {
-        val productValidationErrors = mutableListOf<ProductValidationError>()
 
-        if (nameProduct.isEmpty()) productValidationErrors.add(EmptyProductNameError)
-        if (descriptionProduct.isEmpty()) productValidationErrors.add(EmptyProductDescription)
-        if (price.isEmpty()) productValidationErrors.add(EmptyProductPrice)
-        if (amount.isEmpty()) productValidationErrors.add(EmptyProductAmount)
-        if (price.removeFormatter().isNotEmpty() && price.removeFormatter().toDouble() == 0.0)
-            productValidationErrors.add(PriceIsZeroError)
-        if (amount.isNotEmpty() && amount.toInt() == 0)
-            productValidationErrors.add(AmountIsZeroError)
+    fun saveOrder() {
+        viewModelScope.launch {
+            val products = _uiState.value.products
+            repository.saveOrder(products)
+        }
+    }
 
-        return productValidationErrors.toList()
+    fun getOrder(orderId: Int) {
+        viewModelScope.launch {
+            val order: Order = repository.getOrder(orderId)
+
+            val totalValueOrder = order.products.sumOf { it.total }
+            val totalValueOrderFormatForMoney = NumberFormat.getCurrencyInstance().format(totalValueOrder)
+            val productsTotalCount = order.products.size
+
+            val updateOrderUiData = OrderUiData(
+                products = order.products,
+                totalValueOrder = totalValueOrderFormatForMoney,
+                showEmptyState = false,
+                showSaveButton = false,
+                productsTotalCount = "$productsTotalCount"
+            )
+
+            _uiState.value = updateOrderUiData
+        }
+    }
+
+    fun deleteOrder(orderId: Int){
+        viewModelScope.launch {
+            repository.deleteOrder(orderId)
+        }
     }
 
     fun insertProduct(nameProduct: String, descriptionProduct: String, price: String, amount: String) {
@@ -86,38 +103,5 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
             showSaveButton = showSaveButton,
             productsTotalCount = "$productsTotalCount"
         )
-    }
-
-    fun saveOrder() {
-        viewModelScope.launch {
-            val products = _uiState.value.products
-            repository.saveOrder(products)
-        }
-    }
-
-    fun getOrder(orderId: Int) {
-        viewModelScope.launch {
-            val order: Order = repository.getOrder(orderId)
-
-            val totalValueOrder = order.products.sumOf { it.total }
-            val totalValueOrderFormatForMoney = NumberFormat.getCurrencyInstance().format(totalValueOrder)
-            val productsTotalCount = order.products.size
-
-            val updateOrderUiData = OrderUiData(
-                products = order.products,
-                totalValueOrder = totalValueOrderFormatForMoney,
-                showEmptyState = false,
-                showSaveButton = false,
-                productsTotalCount = "$productsTotalCount"
-            )
-
-            _uiState.value = updateOrderUiData
-        }
-    }
-
-    fun deleteOrder(orderId: Int){
-        viewModelScope.launch {
-            repository.deleteOrder(orderId)
-        }
     }
 }
