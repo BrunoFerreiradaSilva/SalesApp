@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class SalesRepositoryImp @Inject constructor(private val dao: OrderDAO) : SalesRepository {
+
     override fun getAllOrders(): Flow<List<Order>> = flow {
         dao.getAllOrders().collect { listOrder ->
             emit(listOrder)
@@ -19,7 +20,7 @@ class SalesRepositoryImp @Inject constructor(private val dao: OrderDAO) : SalesR
         dao.insertOrder(orderList)
     }
 
-    override suspend fun getOrder(orderId: Int): Order{
+    override suspend fun getOrder(orderId: Int): Order {
         return dao.getOrder(orderId)
     }
 

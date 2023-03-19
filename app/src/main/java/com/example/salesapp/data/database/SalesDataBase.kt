@@ -10,7 +10,7 @@ import com.example.salesapp.model.Order
 
 @Database(entities = [Order::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
-abstract class SalesDataBase  : RoomDatabase() {
+abstract class SalesDataBase : RoomDatabase() {
 
     abstract fun dao(): OrderDAO
 

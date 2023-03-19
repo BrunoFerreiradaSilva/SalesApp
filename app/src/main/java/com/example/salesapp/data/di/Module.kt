@@ -14,12 +14,13 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 @Module
 object Module {
+
     @Provides
-    fun providesSalesService(orderDAO: OrderDAO):SalesRepository{
+    fun providesSalesService(orderDAO: OrderDAO): SalesRepository {
         return SalesRepositoryImp(orderDAO)
     }
 
-        @Provides
+    @Provides
     fun providesRecipeDAO(@ApplicationContext appContext: Context): OrderDAO {
         return SalesDataBase.getDatabase(appContext).dao()
     }

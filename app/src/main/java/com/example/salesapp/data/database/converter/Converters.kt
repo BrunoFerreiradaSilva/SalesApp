@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken
 
 
 class Converters {
+
     private inline fun <reified T> Gson.fromJson(json: String) =
         fromJson<T>(json, object : TypeToken<T>() {}.type)
 
@@ -23,5 +24,4 @@ class Converters {
             arrayListOf()
         }
     }
-
 }

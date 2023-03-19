@@ -1,7 +1,7 @@
 package com.example.salesapp.data.repository
 
-import com.example.salesapp.model.Product
 import com.example.salesapp.model.Order
+import com.example.salesapp.model.Product
 import kotlinx.coroutines.flow.Flow
 
 interface SalesRepository {

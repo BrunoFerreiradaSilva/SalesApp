@@ -43,15 +43,15 @@ fun String.removeFormatter(): String {
     val parsed = if (cleanString.isBlank()) 0.0 else cleanString.toDouble()
 
     val formated = NumberFormat.getInstance().format(parsed / 100)
-    val newFormat = formated.replace(".","")
-    return newFormat.replace(",",".")
+    val newFormat = formated.replace(".", "")
+    return newFormat.replace(",", ".")
 }
 
-fun View.gone(){
+fun View.gone() {
     this.visibility = View.GONE
 }
 
-fun View.visible(){
+fun View.visible() {
     this.visibility = View.VISIBLE
 }
 
