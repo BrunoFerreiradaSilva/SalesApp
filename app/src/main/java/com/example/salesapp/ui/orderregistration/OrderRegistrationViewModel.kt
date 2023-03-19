@@ -6,6 +6,8 @@ import com.example.salesapp.data.repository.SalesRepository
 import com.example.salesapp.model.Order
 import com.example.salesapp.model.OrderUiData
 import com.example.salesapp.model.Product
+import com.example.salesapp.model.ProductUi
+import com.example.salesapp.util.formatForMoney
 import com.example.salesapp.util.removeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -90,8 +92,7 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
         updateProductList.add(product)
 
         val totalValueOrder = updateProductList.sumOf { it.total }
-        val totalValueOrderFormatForMoney =
-            NumberFormat.getCurrencyInstance().format(totalValueOrder)
+        val totalValueOrderFormatForMoney = totalValueOrder.formatForMoney()
         val showEmptyState = updateProductList.isEmpty()
         val showSaveButton = updateProductList.isNotEmpty()
         val productsTotalCount = updateProductList.size
