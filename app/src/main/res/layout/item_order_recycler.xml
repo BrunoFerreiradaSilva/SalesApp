@@ -41,23 +41,25 @@
 
             <View
                 android:id="@+id/divisor"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/tv_total_items"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/status_bar_color"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_width="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tv_order_number"
-                android:layout_height="2dp"/>
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                app:layout_constraintBottom_toTopOf="@id/tv_total_items"
+                app:layout_constraintEnd_toEndOf="@+id/tv_order_number"
+                app:layout_constraintStart_toStartOf="@+id/tv_order_number"
+                app:layout_constraintTop_toBottomOf="@id/tv_order_number" />
 
             <TextView
                 android:id="@+id/tv_total_items_text"
                 style="@style/textStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
                 android:text="Itens: "
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"

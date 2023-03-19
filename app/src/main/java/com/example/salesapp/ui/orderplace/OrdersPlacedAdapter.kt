@@ -21,9 +21,10 @@ class OrdersPlacedAdapter(private val onOrderClicked: (orderId: Int) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: OrdersPlacedAdapter.ItemOrderViewHolder, position: Int) {
-        holder.binding(getItem(position))
+        val order = getItem(position)
+        holder.binding(order)
         holder.itemView.setOnClickListener {
-            val orderId = getItem(position).orderId
+            val orderId = order.orderId
             onOrderClicked(orderId)
         }
     }
