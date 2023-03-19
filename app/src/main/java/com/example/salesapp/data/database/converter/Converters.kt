@@ -19,7 +19,7 @@ class Converters {
     @TypeConverter
     fun toStringArrayList(value: String): List<Product> {
         return try {
-            Gson().fromJson<List<Product>>(value) //using extension function
+            Gson().fromJson<List<Product>>(value)
         } catch (e: Exception) {
             arrayListOf()
         }

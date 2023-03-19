@@ -12,6 +12,7 @@ import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
 import com.example.salesapp.model.OrderUiData
 import com.example.salesapp.model.ProductUi
 import com.example.salesapp.ui.insertproduct.InsertProductDialogFragment
+import com.example.salesapp.ui.orderplace.INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID
 import com.example.salesapp.ui.orderplace.INTENT_EXTRA_ORDER_ID
 import com.example.salesapp.util.gone
 import com.example.salesapp.util.visible
@@ -31,7 +32,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
         binding = ActivityOrderRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val orderId = intent.getIntExtra(INTENT_EXTRA_ORDER_ID, 0)
+        val orderId = intent.getIntExtra(INTENT_EXTRA_ORDER_ID, INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID)
 
         val ordersRegistrationAdapter = OrdersRegistrationAdapter()
 
@@ -50,7 +51,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
             }
         }
 
-        if (orderId != 0) {
+        if (orderId != INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID) {
             viewModel.getOrder(orderId)
             binding.apply {
                 btnSave.gone()
@@ -58,7 +59,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 tvNumberOrder.text = getString(R.string.order_number, orderId.toString())
                 btnDelete.visible()
                 btnDelete.setOnClickListener {
-                    alertDialogForDelete(orderId)
+                    showDeleteOrderDialog(orderId)
                 }
             }
         }
@@ -70,14 +71,14 @@ class OrderRegistrationActivity : AppCompatActivity() {
 
         binding.btnAddItem.setOnClickListener {
             val dialogFragment = InsertProductDialogFragment { product ->
-                getProductUi(product)
+                insertProduct(product)
             }
             dialogFragment.show(supportFragmentManager, dialogFragment.tag)
         }
 
     }
 
-    private fun alertDialogForDelete(orderId: Int) {
+    private fun showDeleteOrderDialog(orderId: Int) {
         val alertDialog = AlertDialog.Builder(this@OrderRegistrationActivity)
         alertDialog.setTitle(getString(R.string.title_delete_dialog))
         alertDialog.setPositiveButton(
@@ -90,7 +91,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun getProductUi(product: ProductUi) {
+    private fun insertProduct(product: ProductUi) {
         viewModel.insertProduct(
             product.nameProduct,
             product.description,

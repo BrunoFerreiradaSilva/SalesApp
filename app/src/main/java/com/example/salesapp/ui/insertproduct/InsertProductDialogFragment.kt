@@ -43,12 +43,12 @@ class InsertProductDialogFragment(private val onReceivedListProducts: (product: 
 
         binding.tiePrice.addCurrencyFormatter()
 
-        binding.btnIncludeProduct.setOnClickListener { verifyFields() }
+        binding.btnIncludeProduct.setOnClickListener { validateFields() }
 
         return binding.root
     }
 
-    private fun verifyFields() {
+    private fun validateFields() {
 
         binding.apply {
             val productName = tieProductName.text.toString()

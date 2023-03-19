@@ -8,6 +8,8 @@ import androidx.room.TypeConverters
 import com.example.salesapp.data.database.converter.Converters
 import com.example.salesapp.model.Order
 
+private const val DB_NAME = "sales_database"
+
 @Database(entities = [Order::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class SalesDataBase : RoomDatabase() {
@@ -25,7 +27,7 @@ abstract class SalesDataBase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     SalesDataBase::class.java,
-                    "sales_database"
+                    DB_NAME
                 )
                     .fallbackToDestructiveMigration()
                     .build()

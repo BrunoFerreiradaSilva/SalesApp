@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.salesapp.databinding.ItemRegistrationOrderBinding
 import com.example.salesapp.model.Product
-import com.example.salesapp.util.formatForMoney
-import java.text.NumberFormat
+import com.example.salesapp.util.formatToBrazilianCurrency
 
 class OrdersRegistrationAdapter : ListAdapter<Product, ViewHolder>(OrdersRegistrationAdapter) {
 
@@ -32,8 +31,8 @@ class OrdersRegistrationAdapter : ListAdapter<Product, ViewHolder>(OrdersRegistr
                 tvResultNameClient.text = item.nameProduct
                 tvResultDescriptionClient.text = item.description
                 tvAmountProduct.text = "${item.amount}"
-                tvPriceUn.text = item.price.formatForMoney()
-                tvTotalValue.text = item.total.formatForMoney()
+                tvPriceUn.text = item.price.formatToBrazilianCurrency()
+                tvTotalValue.text = item.total.formatToBrazilianCurrency()
             }
         }
     }

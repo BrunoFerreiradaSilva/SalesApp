@@ -27,17 +27,17 @@ fun EditText.addCurrencyFormatter() {
                 val parsed = if (cleanString.isBlank()) 0.0 else cleanString.toDouble()
 
                 val valueDouble = parsed / 100
-                val formated = valueDouble.formatForMoney()
-                current = formated
-                this@addCurrencyFormatter.setText(formated)
-                this@addCurrencyFormatter.setSelection(formated.length)
+                val formatted = valueDouble.formatToBrazilianCurrency()
+                current = formatted
+                this@addCurrencyFormatter.setText(formatted)
+                this@addCurrencyFormatter.setSelection(formatted.length)
                 this@addCurrencyFormatter.addTextChangedListener(this)
             }
         }
     })
 }
 
-fun Double.formatForMoney():String{
+fun Double.formatToBrazilianCurrency():String{
     return NumberFormat.getCurrencyInstance(Locale("pt","BR")).format(this)
 }
 
@@ -45,8 +45,8 @@ fun String.removeFormatter(): String {
     val cleanString = this.replace("\\D".toRegex(), "")
     val parsed = if (cleanString.isBlank()) 0.0 else cleanString.toDouble()
 
-    val formated = NumberFormat.getInstance(Locale("pt","BR")).format(parsed / 100)
-    val newFormat = formated.replace(".","")
+    val formatted = NumberFormat.getInstance(Locale("pt","BR")).format(parsed / 100)
+    val newFormat = formatted.replace(".","")
     return newFormat.replace(",",".")
 }
 

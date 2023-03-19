@@ -5,12 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
 import com.example.salesapp.model.Order
 import com.example.salesapp.model.OrderUi
-import com.example.salesapp.util.formatForMoney
+import com.example.salesapp.util.formatToBrazilianCurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.text.NumberFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +30,7 @@ class OrdersPlacedViewModel @Inject constructor(private val repository: SalesRep
     private fun handleGetOrders(listOrder: List<Order>) {
         val listOrderUi = listOrder.map { order ->
             val sum = order.products.sumOf { it.total }
-            val orderTotal = sum.formatForMoney()
+            val orderTotal = sum.formatToBrazilianCurrency()
             val orderProductCount = order.products.size.toString()
             OrderUi(
                 orderId = order.id,
