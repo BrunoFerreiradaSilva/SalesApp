@@ -35,7 +35,7 @@ class OrdersPlacedViewModel @Inject constructor(private val repository: SalesRep
             val orderProductCount = order.products.size.toString()
             OrderUi(
                 orderId = order.id,
-                orderName = "Pedido numero ${order.id}",
+                orderName = "Pedido número ${order.id}",
                 orderTotal = orderTotal,
                 orderProductCount = orderProductCount
             )

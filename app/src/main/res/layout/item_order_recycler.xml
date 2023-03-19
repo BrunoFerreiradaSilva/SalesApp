@@ -28,17 +28,28 @@
 
             <TextView
                 android:id="@+id/tv_order_number"
-                style="@style/textStyle"
+                style="@style/titleStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textAlignment="center"
+                android:layout_marginHorizontal="10dp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/divisor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="1" />
 
+            <View
+                android:id="@+id/divisor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_total_items"
+                android:background="@color/status_bar_color"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_order_number"
+                android:layout_height="2dp"/>
 
             <TextView
                 android:id="@+id/tv_total_items_text"
@@ -47,10 +58,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="10dp"
-                android:text="Items: "
+                android:text="Itens: "
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_order_number" />
+                app:layout_constraintTop_toBottomOf="@id/divisor" />
 
             <TextView
                 android:id="@+id/tv_total_items"
