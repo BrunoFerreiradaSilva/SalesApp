@@ -14,8 +14,8 @@ class InsertProductViewModel @Inject constructor() : ViewModel() {
     ): List<ProductValidationError> {
         val productValidationErrors = mutableListOf<ProductValidationError>()
 
-        if (nameProduct.isEmpty()) productValidationErrors.add(ProductValidationError.EmptyProductNameError)
-        if (descriptionProduct.isEmpty()) productValidationErrors.add(ProductValidationError.EmptyProductDescription)
+        if (nameProduct.isBlank()) productValidationErrors.add(ProductValidationError.EmptyProductNameError)
+        if (descriptionProduct.isBlank()) productValidationErrors.add(ProductValidationError.EmptyProductDescription)
         if (price.isEmpty()) productValidationErrors.add(ProductValidationError.EmptyProductPrice)
         if (amount.isEmpty()) productValidationErrors.add(ProductValidationError.EmptyProductAmount)
         if (price.removeFormatter().isNotEmpty() && price.removeFormatter().toDouble() == 0.0)

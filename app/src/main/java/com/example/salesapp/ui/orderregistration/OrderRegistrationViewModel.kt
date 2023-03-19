@@ -37,8 +37,7 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
             val order: Order = repository.getOrder(orderId)
 
             val totalValueOrder = order.products.sumOf { it.total }
-            val totalValueOrderFormatForMoney =
-                NumberFormat.getCurrencyInstance().format(totalValueOrder)
+            val totalValueOrderFormatForMoney = totalValueOrder.formatForMoney()
             val productsTotalCount = order.products.size
 
             val updateOrderUiData = OrderUiData(
