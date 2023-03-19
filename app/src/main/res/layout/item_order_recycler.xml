@@ -45,21 +45,22 @@
                 style="@style/textStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:layout_marginStart="10dp"
                 android:text="Items: "
                 android:textStyle="bold"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_order_number" />
 
             <TextView
                 android:id="@+id/tv_total_items"
                 style="@style/textStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/tv_total_items_text"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_total_items_text"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_total_items_text"
-                app:layout_constraintTop_toTopOf="@id/tv_total_items_text"
+                app:layout_constraintTop_toTopOf="@+id/tv_total_items_text"
                 tools:text="6" />
 
             <TextView
@@ -76,8 +77,10 @@
             <TextView
                 android:id="@+id/tv_total_order"
                 style="@style/textStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_total_order_text"
                 app:layout_constraintTop_toTopOf="@+id/tv_total_order_text"
                 tools:text="R$ 120,00" />
