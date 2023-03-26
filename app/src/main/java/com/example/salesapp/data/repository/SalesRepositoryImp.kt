@@ -15,8 +15,8 @@ class SalesRepositoryImp @Inject constructor(private val dao: OrderDAO) : SalesR
         }
     }
 
-    override suspend fun saveOrder(listItem: List<Product>) {
-        val orderList = Order(products = listItem)
+    override suspend fun saveOrder(listItem: List<Product>,nameClient:String) {
+        val orderList = Order(products = listItem, clientName = nameClient)
         dao.insertOrder(orderList)
     }
 

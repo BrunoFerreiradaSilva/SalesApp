@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.salesapp.R
 import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
 import com.example.salesapp.model.OrderUiData
+import com.example.salesapp.model.OrderValidateError
 import com.example.salesapp.model.ProductUi
 import com.example.salesapp.ui.insertproduct.InsertProductDialogFragment
 import com.example.salesapp.ui.orderplace.INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID
@@ -58,6 +59,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 btnAddItem.gone()
                 tvNumberOrder.text = getString(R.string.order_number, orderId.toString())
                 btnDelete.visible()
+                tieClientName.isEnabled = false
                 btnDelete.setOnClickListener {
                     showDeleteOrderDialog(orderId)
                 }
@@ -65,8 +67,20 @@ class OrderRegistrationActivity : AppCompatActivity() {
         }
 
         binding.btnSave.setOnClickListener {
-            viewModel.saveOrder()
-            finish()
+            viewModel.insertClientName(binding.tieClientName.text.toString())
+            val nameClient = binding.tieClientName.text.toString()
+            val validationErrorNameClient = viewModel.validateErrorNameClient(binding.tieClientName.text.toString())
+
+            if (validationErrorNameClient.isEmpty()){
+                viewModel.saveOrder(nameClient)
+                finish()
+            }else{
+                validationErrorNameClient.forEach {validateErrorName->
+                    when(validateErrorName){
+                        OrderValidateError.NameClientError -> binding.tieClientName.error = getString(R.string.error_name_client_is_empty)
+                    }
+                }
+            }
         }
 
         binding.btnAddItem.setOnClickListener {
@@ -75,7 +89,6 @@ class OrderRegistrationActivity : AppCompatActivity() {
             }
             dialogFragment.show(supportFragmentManager, dialogFragment.tag)
         }
-
     }
 
     private fun showDeleteOrderDialog(orderId: Int) {
@@ -112,6 +125,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 emptyList.tvMessage.text = getString(R.string.message_no_item_add)
                 tvResultTotalItems.text = productsTotalCount
                 tvResultTotalValue.text = totalValueOrder
+                tieClientName.setText(clientName)
             }
         }
     }

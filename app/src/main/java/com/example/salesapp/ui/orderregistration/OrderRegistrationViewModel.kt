@@ -3,9 +3,7 @@ package com.example.salesapp.ui.orderregistration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
-import com.example.salesapp.model.Order
-import com.example.salesapp.model.OrderUiData
-import com.example.salesapp.model.Product
+import com.example.salesapp.model.*
 import com.example.salesapp.util.formatToBrazilianCurrency
 import com.example.salesapp.util.removeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,12 +21,20 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
     val uiState = _uiState.asStateFlow()
 
 
-    fun saveOrder() {
+    fun saveOrder(nameClient:String) {
         viewModelScope.launch {
             val products = _uiState.value.products
-            repository.saveOrder(products)
+            repository.saveOrder(products,nameClient)
         }
     }
+
+    fun validateErrorNameClient(nameClient:String):List<OrderValidateError>{
+        val errorList = mutableListOf<OrderValidateError>()
+        if (nameClient.isBlank()) errorList.add(OrderValidateError.NameClientError)
+        return errorList.toList()
+    }
+
+
 
     fun getOrder(orderId: Int) {
         viewModelScope.launch {
@@ -39,6 +45,7 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
             val productsTotalCount = order.products.size
 
             val updateOrderUiData = OrderUiData(
+                clientName = order.clientName,
                 products = order.products,
                 totalValueOrder = totalValueOrderFormatForMoney,
                 showEmptyState = false,
@@ -64,13 +71,13 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
     ) {
 
         val productPrice = price.removeFormatter().toDouble()
-        val totalPrice = productPrice * amount.toInt()
+        val totalPrice = productPrice * amount.toDouble()
 
         val product = Product(
             nameProduct = nameProduct,
             description = descriptionProduct,
             price = productPrice,
-            amount = amount.toInt(),
+            amount = amount.toDouble(),
             total = totalPrice
         )
 
@@ -92,11 +99,16 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
         val productsTotalCount = updateProductList.size
 
         return OrderUiData(
+
             products = updateProductList,
             totalValueOrder = totalFormattedInBrazilianCurrency,
             showEmptyState = showEmptyState,
             showSaveButton = showSaveButton,
             productsTotalCount = "$productsTotalCount"
         )
+    }
+
+    fun insertClientName(client:String){
+
     }
 }

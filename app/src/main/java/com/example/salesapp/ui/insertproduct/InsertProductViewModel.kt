@@ -20,7 +20,7 @@ class InsertProductViewModel @Inject constructor() : ViewModel() {
         if (amount.isEmpty()) productValidationErrors.add(ProductValidationError.EmptyProductAmount)
         if (price.removeFormatter().isNotEmpty() && price.removeFormatter().toDouble() == 0.0)
             productValidationErrors.add(ProductValidationError.PriceIsZeroError)
-        if (amount.isNotEmpty() && amount.toInt() == 0)
+        if (amount.isNotEmpty() && amount.toDouble() == 0.0)
             productValidationErrors.add(ProductValidationError.AmountIsZeroError)
 
         return productValidationErrors.toList()

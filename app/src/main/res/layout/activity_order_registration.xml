@@ -67,6 +67,24 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_client_name"
+        android:background="@color/white"
+        android:hint="@string/client_name"
+        android:textColorHint="@color/hint_color"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_client_name"
+            android:layout_marginHorizontal="10dp"
+            style="@style/editTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_order_registration"
@@ -76,7 +94,7 @@
         app:layout_constraintBottom_toTopOf="@id/cl_total"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/til_client_name" />
 
     <include
         android:id="@+id/empty_list"
@@ -86,7 +104,7 @@
         app:layout_constraintBottom_toTopOf="@id/cl_total"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/til_client_name" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_total"

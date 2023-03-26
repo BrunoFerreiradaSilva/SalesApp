@@ -1,16 +1,22 @@
 package com.example.salesapp.data.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.salesapp.data.database.converter.Converters
 import com.example.salesapp.model.Order
 
+
 private const val DB_NAME = "sales_database"
 
-@Database(entities = [Order::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Order::class],
+    version = 2,
+    exportSchema = true,
+    autoMigrations = [AutoMigration(from = 1, to = 2, spec = SalesDataBase.Migration1to2::class)]
+)
 @TypeConverters(Converters::class)
 abstract class SalesDataBase : RoomDatabase() {
 
@@ -29,11 +35,18 @@ abstract class SalesDataBase : RoomDatabase() {
                     SalesDataBase::class.java,
                     DB_NAME
                 )
-                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
             }
         }
     }
+
+
+    @DeleteColumn(
+        tableName = "table_order",
+        columnName = "name_client"
+    )
+    class Migration1to2 : AutoMigrationSpec
+
 }
