@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.salesapp.databinding.ItemOrderRecyclerBinding
 import com.example.salesapp.model.OrderUi
 
-class OrdersPlacedAdapter(private val onOrderClicked: (orderId: Int) -> Unit) :
+class OrdersPlacedAdapter(private val onOrderClicked: (orderId: String) -> Unit) :
     ListAdapter<OrderUi, OrdersPlacedAdapter.ItemOrderViewHolder>(OrdersPlacedAdapter) {
 
     override fun onCreateViewHolder(

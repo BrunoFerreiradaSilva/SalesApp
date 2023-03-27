@@ -1,13 +1,24 @@
 package com.example.salesapp.ui.insertproduct
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.salesapp.data.repository.SalesRepository
+import com.example.salesapp.model.OrderUiData
+import com.example.salesapp.model.Product
 import com.example.salesapp.model.ProductValidationError
+import com.example.salesapp.util.formatToBrazilianCurrency
 import com.example.salesapp.util.removeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class InsertProductViewModel @Inject constructor() : ViewModel() {
+class InsertProductViewModel @Inject constructor(private val repository: SalesRepository) : ViewModel() {
+
+
+    private lateinit var temporaryOrderId:String
 
     fun validateFields(
         nameProduct: String, descriptionProduct: String, price: String, amount: String
@@ -24,6 +35,34 @@ class InsertProductViewModel @Inject constructor() : ViewModel() {
             productValidationErrors.add(ProductValidationError.AmountIsZeroError)
 
         return productValidationErrors.toList()
+    }
+
+    fun insertProduct(
+        nameProduct: String,
+        descriptionProduct: String,
+        price: String,
+        amount: String
+    ) {
+
+        val productPrice = price.removeFormatter().toDouble()
+        val totalPrice = productPrice * amount.toDouble()
+
+        val product = Product(
+            orderId = temporaryOrderId,
+            nameProduct = nameProduct,
+            description = descriptionProduct,
+            price = productPrice,
+            amount = amount.toDouble(),
+            total = totalPrice
+        )
+        viewModelScope.launch {
+            repository.insertProduct(product)
+        }
+    }
+
+    fun getIdOrder(orderId:String):String{
+        temporaryOrderId = orderId
+        return temporaryOrderId
     }
 
 }

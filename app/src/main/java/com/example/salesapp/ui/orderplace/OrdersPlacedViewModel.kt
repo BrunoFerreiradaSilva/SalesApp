@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
 import com.example.salesapp.model.Order
+import com.example.salesapp.model.OrderAndProduct
 import com.example.salesapp.model.OrderUi
 import com.example.salesapp.util.formatToBrazilianCurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,14 +28,14 @@ class OrdersPlacedViewModel @Inject constructor(private val repository: SalesRep
         }
     }
 
-    private fun handleGetOrders(listOrder: List<Order>) {
+    private fun handleGetOrders(listOrder: List<OrderAndProduct>) {
         val listOrderUi = listOrder.map { order ->
             val sum = order.products.sumOf { it.total }
             val orderTotal = sum.formatToBrazilianCurrency()
             val orderProductCount = order.products.size.toString()
             OrderUi(
-                orderId = order.id,
-                orderName = "Pedido número ${order.id}",
+                orderId = order.order.orderId,
+                orderName = "Pedido cliente:  ${order.order.clientName}",
                 orderTotal = orderTotal,
                 orderProductCount = orderProductCount
             )

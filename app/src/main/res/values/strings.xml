@@ -20,7 +20,7 @@
     <string name="order_list">Lista de pedidos</string>
     <string name="message_no_item_add">Você ainda não adicionou\n nenhum item !"</string>
     <string name="message_no_order">Você não tem nenhum\n pedido finalizado !</string>
-    <string name="order_number">Pedido número %s</string>
+    <string name="order_number">Pedido cliente %s</string>
     <string name="error_amount_is_zero">"Quantidade deve ser maior que 0"</string>
     <string name="error_product_amount_is_empty">"Digite a quantidade do produto"</string>
     <string name="error_product_description_is_empty">Digite a descrição do produto</string>

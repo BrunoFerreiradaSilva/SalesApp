@@ -21,7 +21,7 @@ object Module {
     }
 
     @Provides
-    fun providesRecipeDAO(@ApplicationContext appContext: Context): OrderDAO {
-        return SalesDataBase.getDatabase(appContext).dao()
+    fun providesOrderDAO(@ApplicationContext appContext: Context): OrderDAO {
+        return SalesDataBase.getDatabase(appContext).orderDAO()
     }
 }

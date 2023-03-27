@@ -19,6 +19,7 @@ import com.example.salesapp.util.gone
 import com.example.salesapp.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 
 @AndroidEntryPoint
@@ -33,7 +34,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
         binding = ActivityOrderRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val orderId = intent.getIntExtra(INTENT_EXTRA_ORDER_ID, INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID)
+        val orderId = intent.getStringExtra(INTENT_EXTRA_ORDER_ID)
 
         val ordersRegistrationAdapter = OrdersRegistrationAdapter()
 
@@ -52,12 +53,11 @@ class OrderRegistrationActivity : AppCompatActivity() {
             }
         }
 
-        if (orderId != INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID) {
+        if (orderId != INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID && orderId != null) {
             viewModel.getOrder(orderId)
             binding.apply {
                 btnSave.gone()
                 btnAddItem.gone()
-                tvNumberOrder.text = getString(R.string.order_number, orderId.toString())
                 btnDelete.visible()
                 tieClientName.isEnabled = false
                 btnDelete.setOnClickListener {
@@ -67,7 +67,6 @@ class OrderRegistrationActivity : AppCompatActivity() {
         }
 
         binding.btnSave.setOnClickListener {
-            viewModel.insertClientName(binding.tieClientName.text.toString())
             val nameClient = binding.tieClientName.text.toString()
             val validationErrorNameClient = viewModel.validateErrorNameClient(binding.tieClientName.text.toString())
 
@@ -84,14 +83,12 @@ class OrderRegistrationActivity : AppCompatActivity() {
         }
 
         binding.btnAddItem.setOnClickListener {
-            val dialogFragment = InsertProductDialogFragment { product ->
-                insertProduct(product)
-            }
+            val dialogFragment = InsertProductDialogFragment(viewModel.getOrderId())
             dialogFragment.show(supportFragmentManager, dialogFragment.tag)
         }
     }
 
-    private fun showDeleteOrderDialog(orderId: Int) {
+    private fun showDeleteOrderDialog(orderId: String) {
         val alertDialog = AlertDialog.Builder(this@OrderRegistrationActivity)
         alertDialog.setTitle(getString(R.string.title_delete_dialog))
         alertDialog.setPositiveButton(
@@ -102,15 +99,6 @@ class OrderRegistrationActivity : AppCompatActivity() {
         }
         alertDialog.setNegativeButton(getString(R.string.negative_button_dialog), null)
         alertDialog.show()
-    }
-
-    private fun insertProduct(product: ProductUi) {
-        viewModel.insertProduct(
-            product.nameProduct,
-            product.description,
-            product.price,
-            product.amount
-        )
     }
 
     private fun handleOrderUIDataCollected(
@@ -126,6 +114,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 tvResultTotalItems.text = productsTotalCount
                 tvResultTotalValue.text = totalValueOrder
                 tieClientName.setText(clientName)
+                tvNumberOrder.text = getString(R.string.order_number, clientName)
             }
         }
     }

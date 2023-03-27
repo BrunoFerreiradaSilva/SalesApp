@@ -58,3 +58,11 @@ fun View.visible(){
     this.visibility = View.VISIBLE
 }
 
+private val countId = 1
+
+fun generateIdOrder():Int{
+    var idGenerated = 0
+    idGenerated += countId
+    return idGenerated
+}
+

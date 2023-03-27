@@ -1,25 +1,32 @@
 package com.example.salesapp.data.database
 
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.salesapp.model.Order
+import com.example.salesapp.model.OrderAndProduct
+import com.example.salesapp.model.Product
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 @Dao
 interface OrderDAO {
-    @Query("SELECT * from table_order ORDER BY id")
-    fun getAllOrders(): Flow<List<Order>>
+    @Transaction
+    @Query("SELECT * from `order`")
+    fun getAllOrders(): Flow<List<OrderAndProduct>>
 
-    @Query("SELECT * FROM table_order WHERE id = :orderId")
-    suspend fun getOrder(orderId: Int): Order
+    @Query("SELECT * FROM `product` WHERE orderId = :orderId")
+    fun getProductsById(orderId: String) : Flow<Product>
+
+    @Transaction
+    @Query("SELECT * FROM `order` WHERE orderId = :orderId")
+    suspend fun getOrder(orderId: String): OrderAndProduct
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrder(order: Order)
 
-    @Query("DELETE FROM table_order WHERE id = :orderId")
-    suspend fun deleteOrder(orderId: Int)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertProduct(product: Product)
+
+    @Query("DELETE FROM `order` WHERE orderId = :orderId")
+    suspend fun deleteOrder(orderId: String)
 }

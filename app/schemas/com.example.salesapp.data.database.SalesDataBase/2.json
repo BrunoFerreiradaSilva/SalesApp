@@ -2,15 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "c4464b0ed1ed0d78b4c086567f442fbe",
+    "identityHash": "1b635e5850b3bb84ea5af163b2262d81",
     "entities": [
       {
         "tableName": "table_order",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `products` TEXT NOT NULL, `client_name` TEXT NOT NULL DEFAULT '')",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`orderId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `products` TEXT NOT NULL, `client_name` TEXT NOT NULL DEFAULT '')",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "orderId",
+            "columnName": "orderId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -30,6 +30,62 @@
         ],
         "primaryKey": {
           "columnNames": [
+            "orderId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Product",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `orderOwnerId` INTEGER NOT NULL, `nameProduct` TEXT NOT NULL, `description` TEXT NOT NULL, `price` REAL NOT NULL, `amount` REAL NOT NULL, `total` REAL NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderOwnerId",
+            "columnName": "orderOwnerId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameProduct",
+            "columnName": "nameProduct",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "total",
+            "columnName": "total",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
             "id"
           ],
           "autoGenerate": true
@@ -41,7 +97,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c4464b0ed1ed0d78b4c086567f442fbe')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1b635e5850b3bb84ea5af163b2262d81')"
     ]
   }
 }

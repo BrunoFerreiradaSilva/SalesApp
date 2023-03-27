@@ -2,11 +2,37 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b378e3d6e280b33d1baf613a0f0fb6b6",
+    "identityHash": "92138e0e2295c6ec37ef5ba5163c94a1",
     "entities": [
       {
-        "tableName": "table_order",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `products` TEXT NOT NULL, `name_client` TEXT NOT NULL DEFAULT '')",
+        "tableName": "Order",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`orderId` TEXT NOT NULL, `clientName` TEXT NOT NULL, PRIMARY KEY(`orderId`))",
+        "fields": [
+          {
+            "fieldPath": "orderId",
+            "columnName": "orderId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientName",
+            "columnName": "clientName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "orderId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Product",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `orderId` TEXT NOT NULL, `nameProduct` TEXT NOT NULL, `description` TEXT NOT NULL, `price` REAL NOT NULL, `amount` REAL NOT NULL, `total` REAL NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,24 +41,47 @@
             "notNull": true
           },
           {
-            "fieldPath": "products",
-            "columnName": "products",
+            "fieldPath": "orderId",
+            "columnName": "orderId",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "clientName",
-            "columnName": "name_client",
+            "fieldPath": "nameProduct",
+            "columnName": "nameProduct",
             "affinity": "TEXT",
-            "notNull": true,
-            "defaultValue": "''"
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "total",
+            "columnName": "total",
+            "affinity": "REAL",
+            "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
           "columnNames": [
             "id"
-          ]
+          ],
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -41,7 +90,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b378e3d6e280b33d1baf613a0f0fb6b6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '92138e0e2295c6ec37ef5ba5163c94a1')"
     ]
   }
 }

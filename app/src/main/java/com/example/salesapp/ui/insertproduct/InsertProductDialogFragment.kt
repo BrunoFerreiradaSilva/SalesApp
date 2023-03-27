@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class InsertProductDialogFragment(private val onReceivedListProducts: (product: ProductUi) -> Unit) :
+class InsertProductDialogFragment (private val getOrderId:String):
     BottomSheetDialogFragment() {
 
     private lateinit var binding: LayoutIncludeProductBinding
@@ -43,10 +43,15 @@ class InsertProductDialogFragment(private val onReceivedListProducts: (product: 
 
         binding.tiePrice.addCurrencyFormatter()
 
-        binding.btnIncludeProduct.setOnClickListener { validateFields() }
+        binding.btnIncludeProduct.setOnClickListener {
+            validateFields()
+        }
+
+        viewModel.getIdOrder(getOrderId)
 
         return binding.root
     }
+
 
     private fun validateFields() {
 
@@ -61,9 +66,9 @@ class InsertProductDialogFragment(private val onReceivedListProducts: (product: 
             )
 
             if (validationErrors.isEmpty()) {
-                onReceivedListProducts(
+                val productUi =
                     ProductUi(productName, productDescription, productPrice, productAmount)
-                )
+                insertProduct(productUi)
                 dialog?.dismiss()
             } else {
                 validationErrors.forEach { validationError ->
@@ -88,5 +93,14 @@ class InsertProductDialogFragment(private val onReceivedListProducts: (product: 
                 }
             }
         }
+    }
+
+    private fun insertProduct(product: ProductUi) {
+        viewModel.insertProduct(
+            product.nameProduct,
+            product.description,
+            product.price,
+            product.amount
+        )
     }
 }

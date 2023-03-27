@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 
 const val INTENT_EXTRA_ORDER_ID = "idOrder"
-const val INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID = 0
+const val INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID = ""
 
 @AndroidEntryPoint
 class OrdersPlacedActivity : AppCompatActivity() {
@@ -53,7 +53,7 @@ class OrdersPlacedActivity : AppCompatActivity() {
         }
     }
 
-    private fun openOrderDetailScreen(orderId: Int) {
+    private fun openOrderDetailScreen(orderId: String) {
         val intent = Intent(this@OrdersPlacedActivity, OrderRegistrationActivity::class.java)
         intent.putExtra(INTENT_EXTRA_ORDER_ID, orderId)
         startActivity(intent)
