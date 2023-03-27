@@ -16,7 +16,7 @@ class SalesRepositoryImp @Inject constructor(private val dao: OrderDAO) : SalesR
         }
     }
 
-    override fun getProductById(orderId: String): Flow<Product> = flow{
+    override fun getProductById(orderId: String): Flow<Product?> = flow{
         dao.getProductsById(orderId).collect{product ->
             emit(product)
         }

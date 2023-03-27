@@ -47,6 +47,8 @@ class OrderRegistrationActivity : AppCompatActivity() {
             finish()
         }
 
+
+
         lifecycleScope.launch {
             viewModel.uiState.collect { orderUiData ->
                 handleOrderUIDataCollected(orderUiData, ordersRegistrationAdapter)
@@ -59,6 +61,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
                 btnSave.gone()
                 btnAddItem.gone()
                 btnDelete.visible()
+                btnEdit.visible()
                 tieClientName.isEnabled = false
                 btnDelete.setOnClickListener {
                     showDeleteOrderDialog(orderId)

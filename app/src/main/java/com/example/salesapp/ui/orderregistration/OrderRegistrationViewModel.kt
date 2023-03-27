@@ -5,13 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
 import com.example.salesapp.model.*
 import com.example.salesapp.util.formatToBrazilianCurrency
-import com.example.salesapp.util.generateIdOrder
-import com.example.salesapp.util.removeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -26,35 +22,40 @@ class OrderRegistrationViewModel @Inject constructor(private val repository: Sal
 
     init {
         viewModelScope.launch {
-            repository.getProductById(temporaryOrderId).collect(::getProduct)
+            repository.getProductById(temporaryOrderId).collect { product ->
+                product?.let {
+                    updateProductList(it)
+                }
+            }
         }
     }
 
-    private fun getProduct(product: Product) {
+    private fun updateProductList(product: Product) {
         val updateProductList = mutableListOf<Product>()
         val currentProductList: List<Product> = _uiState.value.products
 
         updateProductList.addAll(currentProductList)
         updateProductList.add(product)
 
-        try {
-            val totalValueOrder = updateProductList.sumOf { it.total }
-            val totalFormattedInBrazilianCurrency = totalValueOrder.formatToBrazilianCurrency()
-            val showEmptyState = updateProductList.isEmpty()
-            val showSaveButton = updateProductList.isNotEmpty()
-            val productsTotalCount = updateProductList.size
+        updateOrderUiData(updateProductList)
 
-           val orderUiData = OrderUiData(
-                products = updateProductList,
-                totalValueOrder = totalFormattedInBrazilianCurrency,
-                showEmptyState = showEmptyState,
-                showSaveButton = showSaveButton,
-                productsTotalCount = "$productsTotalCount"
-            )
-            _uiState.value = orderUiData
-        }catch (error: java.lang.NullPointerException){
-            error.printStackTrace()
-        }
+    }
+
+    private fun updateOrderUiData(updateProductList: MutableList<Product>) {
+        val totalValueOrder = updateProductList.sumOf { it.total }
+        val totalFormattedInBrazilianCurrency = totalValueOrder.formatToBrazilianCurrency()
+        val showEmptyState = updateProductList.isEmpty()
+        val showSaveButton = updateProductList.isNotEmpty()
+        val productsTotalCount = updateProductList.size
+
+        val orderUiData = OrderUiData(
+            products = updateProductList,
+            totalValueOrder = totalFormattedInBrazilianCurrency,
+            showEmptyState = showEmptyState,
+            showSaveButton = showSaveButton,
+            productsTotalCount = "$productsTotalCount"
+        )
+        _uiState.value = orderUiData
     }
 
 
