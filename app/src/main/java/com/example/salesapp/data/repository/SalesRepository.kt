@@ -13,4 +13,5 @@ interface SalesRepository {
     suspend fun deleteOrder(orderId: String)
     suspend fun insertProduct(product: Product)
     suspend fun saveUpdateProduct(product: Product)
+    suspend fun deleteProducts(orderId: Int)
 }

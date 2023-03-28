@@ -33,6 +33,9 @@ interface OrderDAO {
     @Query("DELETE FROM `order` WHERE orderId = :orderId")
     suspend fun deleteOrder(orderId: String)
 
+    @Query("DELETE FROM `product` WHERE id = :productId")
+    suspend fun deleteProduct(productId: Int)
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateProduct(product: Product)
 }

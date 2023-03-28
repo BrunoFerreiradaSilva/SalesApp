@@ -73,17 +73,13 @@ class OrderRegistrationViewModel @Inject constructor(
         return errorList.toList()
     }
 
-    fun deleteOrder(orderId: String) {
-        viewModelScope.launch {
-            repository.deleteOrder(orderId)
-        }
-    }
-
     fun getOrderId(): String {
         return orderId
     }
 
-    fun isDetailsOrder():Boolean{
-        return orderId != ""
+    fun deleteProducts(orderId: Int){
+        viewModelScope.launch {
+            repository.deleteProducts(orderId)
+        }
     }
 }

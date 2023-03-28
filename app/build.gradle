@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -70,9 +71,6 @@ dependencies {
     testImplementation 'com.google.dagger:hilt-android-testing:2.44'
     kaptTest 'com.google.dagger:hilt-compiler:2.44'
 
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
-
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
 
     implementation 'androidx.room:room-runtime:2.4.3'
@@ -82,5 +80,16 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.4.3'
 
     implementation 'com.google.code.gson:gson:2.8.8'
+
+
+    // Kotlin
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+
+    // Feature module Support
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.5.3")
+    
+
+
 
 }

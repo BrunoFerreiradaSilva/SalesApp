@@ -48,4 +48,8 @@ class SalesRepositoryImp @Inject constructor(private val dao: OrderDAO) : SalesR
         dao.updateProduct(product)
     }
 
+    override suspend fun deleteProducts(orderId: Int) {
+        dao.deleteProduct(orderId)
+    }
+
 }

@@ -1,14 +1,19 @@
 package com.example.salesapp.ui.orderregistration
 
 import android.os.Bundle
-import androidx.activity.viewModels
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.window.Dialog
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.salesapp.R
-import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
+import com.example.salesapp.databinding.FragmentOrderRegistrationBinding
 import com.example.salesapp.model.OrderUiData
 import com.example.salesapp.model.OrderValidateError
 import com.example.salesapp.ui.insertproduct.InsertProductDialogFragment
@@ -19,43 +24,39 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class OrderRegistrationActivity : AppCompatActivity() {
+class OrderRegistrationFragment : Fragment() {
 
-    private lateinit var binding: ActivityOrderRegistrationBinding
+    private lateinit var binding: FragmentOrderRegistrationBinding
 
     private val viewModel: OrderRegistrationViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityOrderRegistrationBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        binding = FragmentOrderRegistrationBinding.inflate(layoutInflater)
 
         val ordersRegistrationAdapter = OrdersRegistrationAdapter(::isEditModeOn)
 
         binding.rvOrderRegistration.apply {
             adapter = ordersRegistrationAdapter
-            layoutManager = GridLayoutManager(this@OrderRegistrationActivity, 1)
+            layoutManager = GridLayoutManager(requireContext(), 1)
         }
 
-        binding.btnBack.setOnClickListener {
-            finish()
-        }
 
         lifecycleScope.launch {
             viewModel.uiState.collect { orderUiData ->
                 handleOrderUIDataCollected(orderUiData, ordersRegistrationAdapter)
-            }
-        }
 
-        if (viewModel.isDetailsOrder()){
-            binding.apply {
-                btnSave.gone()
-                btnAddItem.gone()
-                btnDelete.visible()
-                tieClientName.isEnabled = false
-                btnDelete.setOnClickListener {
-                    showDeleteOrderDialog(viewModel.getOrderId())
+                binding.btnBack.setOnClickListener {
+                    orderUiData.products.forEach {
+                        viewModel.deleteProducts(it.id)
+                    }
+                    findNavController().navigateUp()
                 }
+
             }
         }
 
@@ -66,7 +67,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
 
             if (validationErrorNameClient.isEmpty()) {
                 viewModel.saveOrder(nameClient)
-                finish()
+                findNavController().navigateUp()
             } else {
                 validationErrorNameClient.forEach { validateErrorName ->
                     when (validateErrorName) {
@@ -81,7 +82,10 @@ class OrderRegistrationActivity : AppCompatActivity() {
             insertProductDialog(viewModel.getOrderId(), 0)
         }
 
+        return binding.root
     }
+
+
 
     private fun isEditModeOn(orderId: String, productId: Int) {
         insertProductDialog(orderId = orderId, productId)
@@ -90,21 +94,10 @@ class OrderRegistrationActivity : AppCompatActivity() {
 
     private fun insertProductDialog(orderId: String, productId: Int) {
         val dialogFragment = InsertProductDialogFragment(orderId, productId)
-        dialogFragment.show(supportFragmentManager, dialogFragment.tag)
+        dialogFragment.show(parentFragmentManager, dialogFragment.tag)
     }
 
-    private fun showDeleteOrderDialog(orderId: String) {
-        val alertDialog = AlertDialog.Builder(this@OrderRegistrationActivity)
-        alertDialog.setTitle(getString(R.string.title_delete_dialog))
-        alertDialog.setPositiveButton(
-            getString(R.string.positive_button_dialog)
-        ) { _, _ ->
-            viewModel.deleteOrder(orderId)
-            finish()
-        }
-        alertDialog.setNegativeButton(getString(R.string.negative_button_dialog), null)
-        alertDialog.show()
-    }
+
 
     private fun handleOrderUIDataCollected(
         orderUiData: OrderUiData,
