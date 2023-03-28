@@ -5,20 +5,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.salesapp.R
 import com.example.salesapp.databinding.LayoutIncludeProductBinding
 import com.example.salesapp.model.ProductUi
 import com.example.salesapp.model.ProductValidationError
 import com.example.salesapp.util.addCurrencyFormatter
+import com.example.salesapp.util.gone
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class InsertProductDialogFragment (private val getOrderId:String):
+class InsertProductDialogFragment(
+    private val getOrderId: String,
+    private val idProduct: Int,
+) :
     BottomSheetDialogFragment() {
 
     private lateinit var binding: LayoutIncludeProductBinding
@@ -47,11 +54,36 @@ class InsertProductDialogFragment (private val getOrderId:String):
             validateFields()
         }
 
-        viewModel.getIdOrder(getOrderId)
+        viewModel.getIdOrder(orderId = getOrderId)
+
+        if (idProduct != 0){
+            updateProducts()
+            lifecycleScope.launch {
+                viewModel.uiState.collect { product ->
+                    binding.apply {
+                        tieProductName.setText(product.nameProduct)
+                        tieProductDescription.setText(product.description)
+                        tiePrice.setText(product.price)
+                        tieAmount.setText(product.amount)
+                        val showBtnUpdate = idProduct != 0 && getOrderId != ""
+                        btnUpdadte.isVisible = showBtnUpdate
+                        val showIncludeButton = idProduct == 0 && getOrderId != ""
+                        btnIncludeProduct.isVisible = showIncludeButton
+                    }
+                }
+            }
+        }
+
+        binding.btnUpdadte.setOnClickListener {
+            validateFields()
+        }
 
         return binding.root
     }
 
+    private fun updateProducts() {
+        viewModel.updateProduct(idProduct)
+    }
 
     private fun validateFields() {
 
@@ -68,7 +100,12 @@ class InsertProductDialogFragment (private val getOrderId:String):
             if (validationErrors.isEmpty()) {
                 val productUi =
                     ProductUi(productName, productDescription, productPrice, productAmount)
-                insertProduct(productUi)
+                if (idProduct != 0 && getOrderId != "") {
+                    updateProduct(getOrderId, idProduct, productUi)
+
+                } else {
+                    insertProduct(productUi)
+                }
                 dialog?.dismiss()
             } else {
                 validationErrors.forEach { validationError ->
@@ -97,6 +134,17 @@ class InsertProductDialogFragment (private val getOrderId:String):
 
     private fun insertProduct(product: ProductUi) {
         viewModel.insertProduct(
+            product.nameProduct,
+            product.description,
+            product.price,
+            product.amount
+        )
+    }
+
+    private fun updateProduct(orderId: String, productId: Int, product: ProductUi) {
+        viewModel.saveUpdate(
+            orderId,
+            productId,
             product.nameProduct,
             product.description,
             product.price,

@@ -33,9 +33,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tie_product_name"
             style="@style/editTextStyle"
-            android:inputType="textCapSentences"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -53,9 +53,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tie_product_description"
             style="@style/editTextStyle"
-            android:inputType="textCapSentences"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -74,11 +74,11 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tie_price"
-            android:maxLength="21"
             style="@style/editTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:maxLength="21" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -86,9 +86,9 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:hint="@string/amount"
-        android:layout_marginStart="10dp"
         android:textColorHint="@color/hint_color"
         app:layout_constraintEnd_toEndOf="@id/til_product_description"
         app:layout_constraintStart_toEndOf="@id/til_price"
@@ -97,11 +97,43 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tie_amount"
             style="@style/editTextStyle"
-            android:maxLength="10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:maxLength="10" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_price">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btn_updadte"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:backgroundTint="@color/button_color"
+            android:elevation="4dp"
+            app:cardCornerRadius="20sp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:text="Aturlizar"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/btn_include_product"
@@ -128,4 +160,5 @@
             android:textSize="18sp" />
 
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

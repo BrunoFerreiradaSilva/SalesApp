@@ -3,10 +3,9 @@ package com.example.salesapp.ui.insertproduct
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
-import com.example.salesapp.model.OrderUiData
 import com.example.salesapp.model.Product
+import com.example.salesapp.model.ProductUi
 import com.example.salesapp.model.ProductValidationError
-import com.example.salesapp.util.formatToBrazilianCurrency
 import com.example.salesapp.util.removeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,10 +14,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class InsertProductViewModel @Inject constructor(private val repository: SalesRepository) : ViewModel() {
+class InsertProductViewModel @Inject constructor(private val repository: SalesRepository) :
+    ViewModel() {
+    private val _uiState: MutableStateFlow<ProductUi> = MutableStateFlow(ProductUi())
 
+    val uiState = _uiState.asStateFlow()
 
-    private lateinit var temporaryOrderId:String
+    private lateinit var temporaryOrderId: String
 
     fun validateFields(
         nameProduct: String, descriptionProduct: String, price: String, amount: String
@@ -60,9 +62,49 @@ class InsertProductViewModel @Inject constructor(private val repository: SalesRe
         }
     }
 
-    fun getIdOrder(orderId:String):String{
+    fun getIdOrder(orderId: String): String {
         temporaryOrderId = orderId
         return temporaryOrderId
     }
 
+    fun updateProduct(orderId: Int) {
+        viewModelScope.launch {
+           val product =  repository.getProductId(orderId)
+
+            val updateProduct = ProductUi(
+                nameProduct = product.nameProduct,
+                description = product.description,
+                price = product.price.toString(),
+                amount = product.amount.toString(),
+                total = product.total.toString()
+            )
+            _uiState.value = updateProduct
+        }
+    }
+
+    fun saveUpdate(
+        orderId: String,
+        productId: Int,
+        nameProduct: String,
+        descriptionProduct: String,
+        price: String,
+        amount: String
+    ) {
+        val productPrice = price.removeFormatter().toDouble()
+        val totalPrice = productPrice * amount.toDouble()
+
+        val product = Product(
+            id = productId,
+            orderId = orderId,
+            nameProduct = nameProduct,
+            description = descriptionProduct,
+            price = productPrice,
+            amount = amount.toDouble(),
+            total = totalPrice
+        )
+        viewModelScope.launch {
+            repository.saveUpdateProduct(product)
+        }
+
+    }
 }

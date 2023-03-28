@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 
 
 const val INTENT_EXTRA_ORDER_ID = "idOrder"
-const val INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID = ""
 
 @AndroidEntryPoint
 class OrdersPlacedActivity : AppCompatActivity() {
@@ -28,9 +27,7 @@ class OrdersPlacedActivity : AppCompatActivity() {
         binding = ActivityOrdersPlacedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val ordersPlacedAdapter = OrdersPlacedAdapter { orderId ->
-            openOrderDetailScreen(orderId)
-        }
+        val ordersPlacedAdapter = OrdersPlacedAdapter(::openOrderDetailScreen)
 
         setupAdapter(ordersPlacedAdapter)
 
@@ -42,7 +39,7 @@ class OrdersPlacedActivity : AppCompatActivity() {
         }
 
         binding.fbCreatedOrder.setOnClickListener {
-            openOrderDetailScreen(INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID)
+            openOrderDetailScreen(null)
         }
     }
 
@@ -53,7 +50,7 @@ class OrdersPlacedActivity : AppCompatActivity() {
         }
     }
 
-    private fun openOrderDetailScreen(orderId: String) {
+    private fun openOrderDetailScreen(orderId: String?) {
         val intent = Intent(this@OrdersPlacedActivity, OrderRegistrationActivity::class.java)
         intent.putExtra(INTENT_EXTRA_ORDER_ID, orderId)
         startActivity(intent)

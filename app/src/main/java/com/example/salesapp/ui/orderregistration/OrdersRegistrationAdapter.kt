@@ -2,14 +2,16 @@ package com.example.salesapp.ui.orderregistration
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.salesapp.databinding.ItemRegistrationOrderBinding
 import com.example.salesapp.model.Product
 import com.example.salesapp.util.formatToBrazilianCurrency
+import com.example.salesapp.util.visible
 
-class OrdersRegistrationAdapter : ListAdapter<Product, ViewHolder>(OrdersRegistrationAdapter) {
+class OrdersRegistrationAdapter(private val onEditClicked: (orderId:String, productId:Int) -> Unit) : ListAdapter<Product, ViewHolder>(OrdersRegistrationAdapter) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -21,7 +23,8 @@ class OrdersRegistrationAdapter : ListAdapter<Product, ViewHolder>(OrdersRegistr
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        (holder as ItemRecycler).binding(getItem(position))
+        val product = getItem(position)
+        (holder as ItemRecycler).binding(product)
     }
 
     inner class ItemRecycler(private val itemRecycler: ItemRegistrationOrderBinding) :
@@ -33,6 +36,10 @@ class OrdersRegistrationAdapter : ListAdapter<Product, ViewHolder>(OrdersRegistr
                 tvAmountProduct.text = "${item.amount}"
                 tvPriceUn.text = item.price.formatToBrazilianCurrency()
                 tvTotalValue.text = item.total.formatToBrazilianCurrency()
+                itemRecycler.btnEdit.visible()
+                itemRecycler.btnEdit.setOnClickListener {
+                    onEditClicked(item.orderId, item.id)
+                }
             }
         }
     }

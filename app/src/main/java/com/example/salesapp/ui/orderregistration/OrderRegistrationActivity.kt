@@ -11,15 +11,11 @@ import com.example.salesapp.R
 import com.example.salesapp.databinding.ActivityOrderRegistrationBinding
 import com.example.salesapp.model.OrderUiData
 import com.example.salesapp.model.OrderValidateError
-import com.example.salesapp.model.ProductUi
 import com.example.salesapp.ui.insertproduct.InsertProductDialogFragment
-import com.example.salesapp.ui.orderplace.INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID
-import com.example.salesapp.ui.orderplace.INTENT_EXTRA_ORDER_ID
 import com.example.salesapp.util.gone
 import com.example.salesapp.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 
 @AndroidEntryPoint
@@ -34,9 +30,7 @@ class OrderRegistrationActivity : AppCompatActivity() {
         binding = ActivityOrderRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val orderId = intent.getStringExtra(INTENT_EXTRA_ORDER_ID)
-
-        val ordersRegistrationAdapter = OrdersRegistrationAdapter()
+        val ordersRegistrationAdapter = OrdersRegistrationAdapter(::isEditModeOn)
 
         binding.rvOrderRegistration.apply {
             adapter = ordersRegistrationAdapter
@@ -47,48 +41,56 @@ class OrderRegistrationActivity : AppCompatActivity() {
             finish()
         }
 
-
-
         lifecycleScope.launch {
             viewModel.uiState.collect { orderUiData ->
                 handleOrderUIDataCollected(orderUiData, ordersRegistrationAdapter)
             }
         }
 
-        if (orderId != INTENT_EXTRA_INVALID_DEFAULT_ORDER_ID && orderId != null) {
-            viewModel.getOrder(orderId)
+        if (viewModel.isDetailsOrder()){
             binding.apply {
                 btnSave.gone()
                 btnAddItem.gone()
                 btnDelete.visible()
-                btnEdit.visible()
                 tieClientName.isEnabled = false
                 btnDelete.setOnClickListener {
-                    showDeleteOrderDialog(orderId)
+                    showDeleteOrderDialog(viewModel.getOrderId())
                 }
             }
         }
 
         binding.btnSave.setOnClickListener {
             val nameClient = binding.tieClientName.text.toString()
-            val validationErrorNameClient = viewModel.validateErrorNameClient(binding.tieClientName.text.toString())
+            val validationErrorNameClient =
+                viewModel.validateErrorNameClient(binding.tieClientName.text.toString())
 
-            if (validationErrorNameClient.isEmpty()){
+            if (validationErrorNameClient.isEmpty()) {
                 viewModel.saveOrder(nameClient)
                 finish()
-            }else{
-                validationErrorNameClient.forEach {validateErrorName->
-                    when(validateErrorName){
-                        OrderValidateError.NameClientError -> binding.tieClientName.error = getString(R.string.error_name_client_is_empty)
+            } else {
+                validationErrorNameClient.forEach { validateErrorName ->
+                    when (validateErrorName) {
+                        OrderValidateError.NameClientError -> binding.tieClientName.error =
+                            getString(R.string.error_name_client_is_empty)
                     }
                 }
             }
         }
 
         binding.btnAddItem.setOnClickListener {
-            val dialogFragment = InsertProductDialogFragment(viewModel.getOrderId())
-            dialogFragment.show(supportFragmentManager, dialogFragment.tag)
+            insertProductDialog(viewModel.getOrderId(), 0)
         }
+
+    }
+
+    private fun isEditModeOn(orderId: String, productId: Int) {
+        insertProductDialog(orderId = orderId, productId)
+
+    }
+
+    private fun insertProductDialog(orderId: String, productId: Int) {
+        val dialogFragment = InsertProductDialogFragment(orderId, productId)
+        dialogFragment.show(supportFragmentManager, dialogFragment.tag)
     }
 
     private fun showDeleteOrderDialog(orderId: String) {

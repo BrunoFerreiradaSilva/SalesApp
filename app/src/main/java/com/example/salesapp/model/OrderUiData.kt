@@ -6,6 +6,8 @@ data class OrderUiData(
     val showEmptyState: Boolean = true,
     val showSaveButton: Boolean = false,
     val productsTotalCount: String = "",
-    val clientName:String = ""
+    val clientName:String = "",
+    val orderId:String = "",
+    val isEditMode: Boolean = false
 
 )
