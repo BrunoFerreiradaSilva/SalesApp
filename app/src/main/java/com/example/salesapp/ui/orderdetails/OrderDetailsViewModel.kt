@@ -42,6 +42,7 @@ class OrderDetailsViewModel @Inject constructor(private val repository: SalesRep
             val showSaveButton = updateProductList.isNotEmpty()
             val productsTotalCount = updateProductList.size
             val orderId = updateProductList.first().orderId
+            val nameClient = repository.getOrder(orderId).order.clientName
 
             val orderUiData = OrderUiData(
                 products = updateProductList,
@@ -49,7 +50,7 @@ class OrderDetailsViewModel @Inject constructor(private val repository: SalesRep
                 showEmptyState = showEmptyState,
                 showSaveButton = showSaveButton,
                 productsTotalCount = "$productsTotalCount",
-                clientName = repository.getOrder(orderId).order.clientName
+                clientName = nameClient
             )
             _uiState.value = orderUiData
         }

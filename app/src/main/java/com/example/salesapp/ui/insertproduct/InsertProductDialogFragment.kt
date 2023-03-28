@@ -23,8 +23,8 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class InsertProductDialogFragment(
-    private val getOrderId: String,
-    private val idProduct: Int,
+    private val getOrderId: String? = null,
+    private val idProduct: Int? = null,
 ) :
     BottomSheetDialogFragment() {
 
@@ -54,7 +54,9 @@ class InsertProductDialogFragment(
             validateFields()
         }
 
-        viewModel.getIdOrder(orderId = getOrderId)
+        if (getOrderId != null) {
+            viewModel.getIdOrder(orderId = getOrderId)
+        }
 
         if (idProduct != 0){
             updateProducts()
@@ -82,7 +84,9 @@ class InsertProductDialogFragment(
     }
 
     private fun updateProducts() {
-        viewModel.updateProduct(idProduct)
+        if (idProduct != null) {
+            viewModel.updateProduct(idProduct)
+        }
     }
 
     private fun validateFields() {
@@ -101,8 +105,11 @@ class InsertProductDialogFragment(
                 val productUi =
                     ProductUi(productName, productDescription, productPrice, productAmount)
                 if (idProduct != 0 && getOrderId != "") {
-                    updateProduct(getOrderId, idProduct, productUi)
-
+                    getOrderId?.let {orderId ->
+                        idProduct?.let { idProduct ->
+                            updateProduct(orderId, idProduct, productUi)
+                        }
+                    }
                 } else {
                     insertProduct(productUi)
                 }

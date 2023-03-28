@@ -35,10 +35,10 @@ class OrderDetailsFragment : Fragment() {
     ): View {
         binding = FragmentOrderRegistrationBinding.inflate(layoutInflater)
 
-        val ordersRegistrationAdapter = OrdersRegistrationAdapter(::isEditModeOn)
+        val orderDetailsAdapter = OrdersDetailsAdapter(::isEditModeOn)
 
         binding.rvOrderRegistration.apply {
-            adapter = ordersRegistrationAdapter
+            adapter = orderDetailsAdapter
             layoutManager = GridLayoutManager(requireContext(), 1)
         }
 
@@ -49,7 +49,7 @@ class OrderDetailsFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.uiState.collect { orderUiData ->
-                handleOrderUIDataCollected(orderUiData, ordersRegistrationAdapter)
+                handleOrderUIDataCollected(orderUiData, orderDetailsAdapter)
             }
         }
 
@@ -79,19 +79,18 @@ class OrderDetailsFragment : Fragment() {
         alertDialog.show()
     }
 
-    private fun isEditModeOn(orderId: String, productId: Int) {
+    private fun isEditModeOn(orderId: String?, productId: Int?) {
         insertProductDialog(orderId = orderId, productId)
-
     }
 
-    private fun insertProductDialog(orderId: String, productId: Int) {
+    private fun insertProductDialog(orderId: String?, productId: Int?) {
         val dialogFragment = InsertProductDialogFragment(orderId, productId)
         dialogFragment.show(parentFragmentManager, dialogFragment.tag)
     }
 
     private fun handleOrderUIDataCollected(
         orderUiData: OrderUiData,
-        ordersRegistrationAdapter: OrdersRegistrationAdapter
+        ordersRegistrationAdapter: OrdersDetailsAdapter
     ) {
         orderUiData.apply {
             ordersRegistrationAdapter.submitList(products)

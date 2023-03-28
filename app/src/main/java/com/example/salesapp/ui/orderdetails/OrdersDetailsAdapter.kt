@@ -1,4 +1,4 @@
-package com.example.salesapp.ui.orderregistration
+package com.example.salesapp.ui.orderdetails
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import com.example.salesapp.model.Product
 import com.example.salesapp.util.formatToBrazilianCurrency
 import com.example.salesapp.util.visible
 
-class OrdersRegistrationAdapter : ListAdapter<Product, ViewHolder>(OrdersRegistrationAdapter) {
+class OrdersDetailsAdapter(private val onEditClicked: (orderId:String?, productId:Int?) -> Unit) : ListAdapter<Product, ViewHolder>(OrdersDetailsAdapter) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -36,6 +36,10 @@ class OrdersRegistrationAdapter : ListAdapter<Product, ViewHolder>(OrdersRegistr
                 tvAmountProduct.text = "${item.amount}"
                 tvPriceUn.text = item.price.formatToBrazilianCurrency()
                 tvTotalValue.text = item.total.formatToBrazilianCurrency()
+                itemRecycler.btnEdit.visible()
+                itemRecycler.btnEdit.setOnClickListener {
+                    onEditClicked(item.orderId, item.id)
+                }
             }
         }
     }

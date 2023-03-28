@@ -38,13 +38,12 @@ class OrderRegistrationFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentOrderRegistrationBinding.inflate(layoutInflater)
 
-        val ordersRegistrationAdapter = OrdersRegistrationAdapter(::isEditModeOn)
+        val ordersRegistrationAdapter = OrdersRegistrationAdapter()
 
         binding.rvOrderRegistration.apply {
             adapter = ordersRegistrationAdapter
             layoutManager = GridLayoutManager(requireContext(), 1)
         }
-
 
         lifecycleScope.launch {
             viewModel.uiState.collect { orderUiData ->
@@ -56,7 +55,6 @@ class OrderRegistrationFragment : Fragment() {
                     }
                     findNavController().navigateUp()
                 }
-
             }
         }
 
@@ -79,25 +77,16 @@ class OrderRegistrationFragment : Fragment() {
         }
 
         binding.btnAddItem.setOnClickListener {
-            insertProductDialog(viewModel.getOrderId(), 0)
+            insertProductDialog()
         }
 
         return binding.root
     }
 
-
-
-    private fun isEditModeOn(orderId: String, productId: Int) {
-        insertProductDialog(orderId = orderId, productId)
-
-    }
-
-    private fun insertProductDialog(orderId: String, productId: Int) {
-        val dialogFragment = InsertProductDialogFragment(orderId, productId)
+    private fun insertProductDialog() {
+        val dialogFragment = InsertProductDialogFragment(null, null)
         dialogFragment.show(parentFragmentManager, dialogFragment.tag)
     }
-
-
 
     private fun handleOrderUIDataCollected(
         orderUiData: OrderUiData,
