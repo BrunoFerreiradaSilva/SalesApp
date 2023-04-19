@@ -4,7 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
-import com.example.salesapp.model.*
+import com.example.salesapp.model.OrderUiData
+import com.example.salesapp.model.OrderValidateError
+import com.example.salesapp.model.Product
 import com.example.salesapp.ui.orderplace.INTENT_EXTRA_ORDER_ID
 import com.example.salesapp.util.formatToBrazilianCurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -77,7 +79,7 @@ class OrderRegistrationViewModel @Inject constructor(
         return orderId
     }
 
-    fun deleteProducts(orderId: Int){
+    fun deleteProducts(orderId: Int) {
         viewModelScope.launch {
             repository.deleteProducts(orderId)
         }

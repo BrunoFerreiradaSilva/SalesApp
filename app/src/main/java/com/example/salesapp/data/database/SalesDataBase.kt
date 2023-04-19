@@ -2,8 +2,6 @@ package com.example.salesapp.data.database
 
 import android.content.Context
 import androidx.room.*
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.salesapp.data.database.converter.Converters
 import com.example.salesapp.model.Order
 import com.example.salesapp.model.Product

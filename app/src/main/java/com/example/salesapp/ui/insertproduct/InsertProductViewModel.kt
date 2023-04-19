@@ -69,7 +69,7 @@ class InsertProductViewModel @Inject constructor(private val repository: SalesRe
 
     fun updateProduct(orderId: Int) {
         viewModelScope.launch {
-           val product =  repository.getProductId(orderId)
+            val product = repository.getProductId(orderId)
 
             val updateProduct = ProductUi(
                 nameProduct = product.nameProduct,

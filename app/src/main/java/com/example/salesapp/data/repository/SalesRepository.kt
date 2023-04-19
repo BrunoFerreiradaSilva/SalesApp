@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface SalesRepository {
     fun getAllOrders(): Flow<List<OrderAndProduct>>
-    fun getProductsById(orderId: String):Flow<List<Product>?>
-    suspend fun getProductId(orderId: Int):Product
+    fun getProductsById(orderId: String): Flow<List<Product>?>
+    suspend fun getProductId(orderId: Int): Product
     suspend fun saveOrder(nameClient: String, orderId: String)
     suspend fun getOrder(orderId: String): OrderAndProduct
     suspend fun deleteOrder(orderId: String)

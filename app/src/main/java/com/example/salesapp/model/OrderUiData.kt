@@ -9,5 +9,4 @@ data class OrderUiData(
     val clientName:String = "",
     val orderId:String = "",
     val isEditMode: Boolean = false
-
 )

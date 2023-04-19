@@ -1,6 +1,5 @@
 package com.example.salesapp.ui.orderplace
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +8,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.salesapp.R
 import com.example.salesapp.databinding.FragmentOrdersPlacedBinding
-import com.example.salesapp.ui.orderregistration.OrderRegistrationFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -63,7 +60,10 @@ class OrdersPlacedActivity : Fragment() {
     }
 
     private fun openOrderDetailScreen(orderId: String) {
-        val action = OrdersPlacedActivityDirections.actionNavigationOrdersPlaceToNavigationDetailsOrder(orderId)
+        val action =
+            OrdersPlacedActivityDirections.actionNavigationOrdersPlaceToNavigationDetailsOrder(
+                orderId
+            )
         findNavController().navigate(action)
     }
 }

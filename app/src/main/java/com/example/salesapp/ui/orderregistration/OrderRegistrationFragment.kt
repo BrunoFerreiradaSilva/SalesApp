@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
-import androidx.compose.ui.window.Dialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,8 +15,6 @@ import com.example.salesapp.databinding.FragmentOrderRegistrationBinding
 import com.example.salesapp.model.OrderUiData
 import com.example.salesapp.model.OrderValidateError
 import com.example.salesapp.ui.insertproduct.InsertProductDialogFragment
-import com.example.salesapp.util.gone
-import com.example.salesapp.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

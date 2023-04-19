@@ -13,7 +13,6 @@ import com.example.salesapp.databinding.LayoutIncludeProductBinding
 import com.example.salesapp.model.ProductUi
 import com.example.salesapp.model.ProductValidationError
 import com.example.salesapp.util.addCurrencyFormatter
-import com.example.salesapp.util.gone
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -58,7 +57,7 @@ class InsertProductDialogFragment(
             viewModel.getIdOrder(orderId = getOrderId)
         }
 
-        if (idProduct != 0){
+        if (idProduct != 0) {
             updateProducts()
             lifecycleScope.launch {
                 viewModel.uiState.collect { product ->
@@ -105,7 +104,7 @@ class InsertProductDialogFragment(
                 val productUi =
                     ProductUi(productName, productDescription, productPrice, productAmount)
                 if (idProduct != 0 && getOrderId != "") {
-                    getOrderId?.let {orderId ->
+                    getOrderId?.let { orderId ->
                         idProduct?.let { idProduct ->
                             updateProduct(orderId, idProduct, productUi)
                         }

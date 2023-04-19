@@ -2,14 +2,12 @@ package com.example.salesapp.ui.orderregistration
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.salesapp.databinding.ItemRegistrationOrderBinding
 import com.example.salesapp.model.Product
 import com.example.salesapp.util.formatToBrazilianCurrency
-import com.example.salesapp.util.visible
 
 class OrdersRegistrationAdapter : ListAdapter<Product, ViewHolder>(OrdersRegistrationAdapter) {
 

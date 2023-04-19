@@ -1,19 +1,15 @@
 package com.example.salesapp.ui.orderdetails
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.salesapp.data.repository.SalesRepository
 import com.example.salesapp.model.OrderUiData
-import com.example.salesapp.model.OrderValidateError
 import com.example.salesapp.model.Product
-import com.example.salesapp.ui.orderplace.INTENT_EXTRA_ORDER_ID
 import com.example.salesapp.util.formatToBrazilianCurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel

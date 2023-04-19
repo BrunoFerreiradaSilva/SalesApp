@@ -16,13 +16,13 @@ class SalesRepositoryImp @Inject constructor(private val dao: OrderDAO) : SalesR
         }
     }
 
-    override fun getProductsById(orderId: String): Flow<List<Product>?> = flow{
-        dao.getProductsById(orderId).collect{product ->
+    override fun getProductsById(orderId: String): Flow<List<Product>?> = flow {
+        dao.getProductsById(orderId).collect { product ->
             emit(product)
         }
     }
 
-    override suspend fun getProductId(orderId: Int):Product{
+    override suspend fun getProductId(orderId: Int): Product {
         return dao.getProductId(orderId)
     }
 
@@ -44,7 +44,7 @@ class SalesRepositoryImp @Inject constructor(private val dao: OrderDAO) : SalesR
         dao.insertProduct(product)
     }
 
-    override suspend fun saveUpdateProduct(product: Product){
+    override suspend fun saveUpdateProduct(product: Product) {
         dao.updateProduct(product)
     }
 
