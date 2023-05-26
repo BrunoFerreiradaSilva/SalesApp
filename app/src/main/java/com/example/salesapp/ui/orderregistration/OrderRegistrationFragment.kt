@@ -84,7 +84,7 @@ class OrderRegistrationFragment : Fragment() {
     }
 
     private fun insertProductDialog() {
-        val dialogFragment = InsertProductDialogFragment(null, null)
+        val dialogFragment = InsertProductDialogFragment(viewModel.getOrderId(), null)
         dialogFragment.show(parentFragmentManager, dialogFragment.tag)
     }
 

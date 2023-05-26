@@ -37,32 +37,24 @@ fun EditText.addCurrencyFormatter() {
     })
 }
 
-fun Double.formatToBrazilianCurrency():String{
-    return NumberFormat.getCurrencyInstance(Locale("pt","BR")).format(this)
+fun Double.formatToBrazilianCurrency(): String {
+    return NumberFormat.getCurrencyInstance(Locale("pt", "BR")).format(this)
 }
 
 fun String.removeFormatter(): String {
     val cleanString = this.replace("\\D".toRegex(), "")
     val parsed = if (cleanString.isBlank()) 0.0 else cleanString.toDouble()
 
-    val formatted = NumberFormat.getInstance(Locale("pt","BR")).format(parsed / 100)
-    val newFormat = formatted.replace(".","")
-    return newFormat.replace(",",".")
+    val formatted = NumberFormat.getInstance(Locale("pt", "BR")).format(parsed / 100)
+    val newFormat = formatted.replace(".", "")
+    return newFormat.replace(",", ".")
 }
 
-fun View.gone(){
+fun View.gone() {
     this.visibility = View.GONE
 }
 
-fun View.visible(){
+fun View.visible() {
     this.visibility = View.VISIBLE
-}
-
-private val countId = 1
-
-fun generateIdOrder():Int{
-    var idGenerated = 0
-    idGenerated += countId
-    return idGenerated
 }
 

@@ -58,20 +58,17 @@ class InsertProductDialogFragment(
             viewModel.getIdOrder(orderId = getOrderId)
         }
 
-        if (idProduct != 0){
-            updateProducts()
-            lifecycleScope.launch {
-                viewModel.uiState.collect { product ->
-                    binding.apply {
-                        tieProductName.setText(product.nameProduct)
-                        tieProductDescription.setText(product.description)
-                        tiePrice.setText(product.price)
-                        tieAmount.setText(product.amount)
-                        val showBtnUpdate = idProduct != 0 && getOrderId != ""
-                        btnUpdadte.isVisible = showBtnUpdate
-                        val showIncludeButton = idProduct == 0 && getOrderId != ""
-                        btnIncludeProduct.isVisible = showIncludeButton
-                    }
+        updateProducts()
+        lifecycleScope.launch {
+            viewModel.uiState.collect { product ->
+                binding.apply {
+                    tieProductName.setText(product.nameProduct)
+                    tieProductDescription.setText(product.description)
+                    tiePrice.setText(product.price)
+                    tieAmount.setText(product.amount)
+                    val showIncludeButton = idProduct != null && getOrderId == null
+                    btnUpdadte.isVisible = !showIncludeButton
+                    btnIncludeProduct.isVisible = showIncludeButton
                 }
             }
         }
@@ -104,12 +101,8 @@ class InsertProductDialogFragment(
             if (validationErrors.isEmpty()) {
                 val productUi =
                     ProductUi(productName, productDescription, productPrice, productAmount)
-                if (idProduct != 0 && getOrderId != "") {
-                    getOrderId?.let {orderId ->
-                        idProduct?.let { idProduct ->
-                            updateProduct(orderId, idProduct, productUi)
-                        }
-                    }
+                if (idProduct != null && getOrderId != null) {
+                    updateProduct(getOrderId, idProduct, productUi)
                 } else {
                     insertProduct(productUi)
                 }
@@ -119,18 +112,23 @@ class InsertProductDialogFragment(
                     when (validationError) {
                         ProductValidationError.EmptyProductAmount -> tieAmount.error =
                             getString(R.string.error_product_amount_is_empty)
+
                         ProductValidationError.EmptyProductDescription -> tieProductDescription.error =
                             getString(
                                 R.string.error_product_description_is_empty
                             )
+
                         ProductValidationError.EmptyProductNameError -> tieProductName.error =
                             getString(
                                 R.string.error_product_name_is_empty
                             )
+
                         ProductValidationError.EmptyProductPrice -> tiePrice.error =
                             getString(R.string.error_product_price_is_empty)
+
                         ProductValidationError.PriceIsZeroError -> tiePrice.error =
                             getString(R.string.error_product_price_is_zero)
+
                         ProductValidationError.AmountIsZeroError -> tieAmount.error =
                             getString(R.string.error_amount_is_zero)
                     }
